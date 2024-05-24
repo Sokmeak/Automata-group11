@@ -58,6 +58,7 @@ public class UI_automata1 extends javax.swing.JFrame {
         btnBack = new javax.swing.JButton();
         btnTesting = new javax.swing.JButton();
         jLabel9 = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         BtnRefresh = new javax.swing.JButton();
@@ -319,6 +320,8 @@ public class UI_automata1 extends javax.swing.JFrame {
                 .addContainerGap(326, Short.MAX_VALUE))
         );
 
+        jLabel10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/rsz_1rsz_1rsz_1rsz_1pencil.png"))); // NOI18N
+
         javax.swing.GroupLayout Main1Layout = new javax.swing.GroupLayout(Main1);
         Main1.setLayout(Main1Layout);
         Main1Layout.setHorizontalGroup(
@@ -327,7 +330,9 @@ public class UI_automata1 extends javax.swing.JFrame {
                 .addGroup(Main1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(Main1Layout.createSequentialGroup()
                         .addGap(180, 180, 180)
-                        .addComponent(headerName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(headerName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel10))
                     .addGroup(Main1Layout.createSequentialGroup()
                         .addGap(39, 39, 39)
                         .addGroup(Main1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -352,7 +357,9 @@ public class UI_automata1 extends javax.swing.JFrame {
                         .addComponent(Main2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(Main1Layout.createSequentialGroup()
-                        .addComponent(headerName, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(Main1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(headerName, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel10))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(29, 29, 29)
@@ -644,6 +651,7 @@ public class UI_automata1 extends javax.swing.JFrame {
     private javax.swing.JButton constructBtn;
     private javax.swing.JTextField headerName;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
