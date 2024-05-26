@@ -3,6 +3,8 @@ package UI.automata;
 
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
+import javax.swing.JOptionPane;
+
 
 /**
  *
@@ -22,6 +24,132 @@ public class UI_automata1 extends javax.swing.JFrame {
         setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH);
         Main2.setVisible(false);
     }
+    
+    // class for get user input
+    class Automaton{
+        private int numberOfState;
+        private String setofSymbols;
+        private String transitionFunctions;
+        private String startState;
+        private String setofFinalStates;
+        
+        
+        
+        @Override
+    public String toString() {
+        return "Automaton " +
+                "Number of States: " + numberOfState + "\n" +
+                "Set of Symbols: " + setofSymbols + "\n" +
+                "Transition Functions: " + transitionFunctions + "\n" +
+                "Start State: " + startState + "\n" +
+                "Set of Final States: " + setofFinalStates
+                ;
+    }
+        
+
+//        public Automaton(int numberOfState,String setofSymbols,  String [] transitionFunctions, String startState, String [] setofFinalStates ) {
+//            this.numberOfState = numberOfState;
+//            this.setofSymbols = setofSymbols;
+//            this.transitionFunctions = transitionFunctions;
+//            this.startState = startState;
+//            this.setofFinalStates = setofFinalStates;
+//            
+//        }
+
+        /**
+         * @return the numberOfState
+         */
+        public int getNumberOfState() {
+            return numberOfState;
+        }
+
+        /**
+         * @param numberOfState the numberOfState to set
+         */
+        public void setNumberOfState(int numberOfState) {
+           if(numberOfState < 0){
+               JOptionPane.showMessageDialog(rootPane, "Number of State must be greater than 0!", "Automaton Processor", ERROR);
+           }else{
+                this.numberOfState = numberOfState;
+           }
+           
+           
+        }
+
+        /**
+         * @return the setofSymbols
+         */
+        public String getSetofSymbols() {
+            return setofSymbols;
+        }
+
+        /**
+         * @param setofSymbols the setofSymbols to set
+         */
+        public void setSetofSymbols(String setofSymbols) {
+            this.setofSymbols = setofSymbols;
+        }
+
+        /**
+         * @return the transitionFunctions
+         */
+        public String getTransitionFunctions() {
+            return transitionFunctions;
+        }
+
+        /**
+         * @param transitionFunctions the transitionFunctions to set
+         */
+        public void setTransitionFunctions(String  transitionFunctions) {
+            this.transitionFunctions = transitionFunctions;
+        }
+
+        /**
+         * @return the startState
+         */
+        public String getStartState() {
+            return startState;
+        }
+
+        /**
+         * @param startState the startState to set
+         */
+        public void setStartState(String startState) {
+            this.startState = startState;
+        }
+
+        /**
+         * @return the setofFinalStates
+         */
+        public String getSetofFinalStates() {
+            return setofFinalStates;
+        }
+
+        /**
+         * @param setofFinalStates the setofFinalStates to set
+         */
+        public void setSetofFinalStates(String setofFinalStates) {
+            this.setofFinalStates = setofFinalStates;
+        }
+        
+        
+       
+        
+        
+        
+        
+           
+    }
+    
+  
+    
+    
+    
+    
+    
+    
+    
+    
  
  
 
@@ -62,7 +190,8 @@ public class UI_automata1 extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         BtnRefresh = new javax.swing.JButton();
-        OutputField = new javax.swing.JTextField();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        OutputArea = new javax.swing.JTextArea();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
@@ -96,38 +225,43 @@ public class UI_automata1 extends javax.swing.JFrame {
         jLabel4.setText("Input transition functions");
 
         jLabel5.setFont(new java.awt.Font("Times New Roman", 0, 24)); // NOI18N
-        jLabel5.setText("Input set of states");
+        jLabel5.setText("Input number of states");
 
         jLabel6.setFont(new java.awt.Font("Times New Roman", 0, 24)); // NOI18N
         jLabel6.setText("Input set of final states");
 
         jLabel7.setFont(new java.awt.Font("Times New Roman", 0, 24)); // NOI18N
-        jLabel7.setText("Input start states");
+        jLabel7.setText("Input start state");
 
+        setOfStatesField.setFont(new java.awt.Font("Times New Roman", 0, 21)); // NOI18N
         setOfStatesField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 setOfStatesFieldActionPerformed(evt);
             }
         });
 
+        setOfSymbolsField.setFont(new java.awt.Font("Times New Roman", 0, 21)); // NOI18N
         setOfSymbolsField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 setOfSymbolsFieldActionPerformed(evt);
             }
         });
 
+        transitionFunctionField.setFont(new java.awt.Font("Times New Roman", 0, 21)); // NOI18N
         transitionFunctionField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 transitionFunctionFieldActionPerformed(evt);
             }
         });
 
+        startStateField.setFont(new java.awt.Font("Times New Roman", 0, 21)); // NOI18N
         startStateField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 startStateFieldActionPerformed(evt);
             }
         });
 
+        setOfFinalStatesFields.setFont(new java.awt.Font("Times New Roman", 0, 21)); // NOI18N
         setOfFinalStatesFields.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 setOfFinalStatesFieldsActionPerformed(evt);
@@ -152,9 +286,9 @@ public class UI_automata1 extends javax.swing.JFrame {
                             .addComponent(transitionFunctionField, javax.swing.GroupLayout.PREFERRED_SIZE, 264, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(setOfFinalStatesFields, javax.swing.GroupLayout.PREFERRED_SIZE, 264, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(setOfSymbolsField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 264, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -180,7 +314,7 @@ public class UI_automata1 extends javax.swing.JFrame {
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(startStateField, javax.swing.GroupLayout.DEFAULT_SIZE, 53, Short.MAX_VALUE))
-                .addGap(35, 35, 35)
+                .addGap(36, 36, 36)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(setOfFinalStatesFields, javax.swing.GroupLayout.DEFAULT_SIZE, 53, Short.MAX_VALUE))
@@ -388,27 +522,26 @@ public class UI_automata1 extends javax.swing.JFrame {
             }
         });
 
-        OutputField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                OutputFieldActionPerformed(evt);
-            }
-        });
+        OutputArea.setColumns(20);
+        OutputArea.setFont(new java.awt.Font("Times New Roman", 0, 21)); // NOI18N
+        OutputArea.setForeground(new java.awt.Color(0, 0, 204));
+        OutputArea.setRows(5);
+        jScrollPane2.setViewportView(OutputArea);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap(136, Short.MAX_VALUE)
+                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(77, 77, 77)
+                .addComponent(BtnRefresh, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(67, 67, 67))
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap(69, Short.MAX_VALUE)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(77, 77, 77)
-                        .addComponent(BtnRefresh, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(67, 67, 67))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addComponent(OutputField, javax.swing.GroupLayout.PREFERRED_SIZE, 388, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(43, 43, 43))))
+                .addContainerGap()
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 460, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -417,9 +550,9 @@ public class UI_automata1 extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(BtnRefresh, javax.swing.GroupLayout.DEFAULT_SIZE, 36, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(OutputField, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(24, Short.MAX_VALUE))
         );
 
         getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(800, 0, 500, 290));
@@ -510,6 +643,62 @@ public class UI_automata1 extends javax.swing.JFrame {
 
     private void btnCheckActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCheckActionPerformed
         // TODO add your handling code here:
+     // Write code to get user input here!
+       int numState = Integer.parseInt(setOfStatesField.getText());
+       String setOfSymbol = setOfSymbolsField.getText();
+       String transitionFunction = transitionFunctionField.getText();
+       String startState = startStateField.getText();
+       String setFinalState = setOfFinalStatesFields.getText();
+       
+       
+       
+       
+        Automaton auto = new Automaton();
+        
+        auto.setNumberOfState(numState);
+        auto.setSetofSymbols(setOfSymbol);
+        auto.setTransitionFunctions(transitionFunction);
+        auto.setStartState(startState);
+        auto.setSetofFinalStates(setFinalState);
+        
+        
+        
+        
+        System.out.println( auto.toString());
+        
+        String myContent = auto.toString();
+        
+        
+         // Create and set up the text area
+        OutputArea.setText(myContent);
+        OutputArea.setEditable(false);  // Make the text area read-only
+        OutputArea.setLineWrap(true);   // Enable line wrapping
+        OutputArea.setWrapStyleWord(true); // Wrap at word boundaries
+        
+        
+       
+      
+        
+       
+        
+        
+       
+//        System.out.println(numState);
+//        System.out.println(setOfSymbol);
+//        System.out.println(transitionFunction);
+//        System.out.println(startState);
+//        System.out.println(setFinalState);
+        
+        
+        
+        // use function split string before insert into object of class
+        
+        
+        
+        
+            
+               
+        
     }//GEN-LAST:event_btnCheckActionPerformed
 
     private void constructBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_constructBtnActionPerformed
@@ -539,14 +728,6 @@ public class UI_automata1 extends javax.swing.JFrame {
     private void BtndeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtndeleteActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_BtndeleteActionPerformed
-
-    private void OutputFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_OutputFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_OutputFieldActionPerformed
-
-    private void setOfStatesFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_setOfStatesFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_setOfStatesFieldActionPerformed
 
     private void setOfSymbolsFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_setOfSymbolsFieldActionPerformed
         // TODO add your handling code here:
@@ -584,6 +765,23 @@ public class UI_automata1 extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_btnTestingActionPerformed
 
+    private void setOfStatesFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_setOfStatesFieldActionPerformed
+        // TODO add your handling code here:
+
+//        int numStates =  Integer.parseInt(setOfStatesField1.getText());
+//        String setOfSymbols = setOfSymbolsField.getText();
+//        String transitionFunction = transitionFunctionField.getText();
+//        String startState = startStateField.getText();
+//        String setOfFinalStat = setOfFinalStatesFields.getText();
+//
+//        System.out.println(numStates);
+//        System.out.println(setOfSymbols);
+//        System.out.println(transitionFunction);
+//        System.out.println(startState);
+//        System.out.println(setOfFinalStat);
+
+    }//GEN-LAST:event_setOfStatesFieldActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -611,6 +809,8 @@ public class UI_automata1 extends javax.swing.JFrame {
         }
         //</editor-fold>
         //</editor-fold>
+        
+        
         
          try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
@@ -644,7 +844,7 @@ public class UI_automata1 extends javax.swing.JFrame {
     private javax.swing.JButton Btnupdate;
     private javax.swing.JPanel Main1;
     private javax.swing.JPanel Main2;
-    private javax.swing.JTextField OutputField;
+    private javax.swing.JTextArea OutputArea;
     private javax.swing.JButton btnBack;
     private javax.swing.JButton btnCheck;
     private javax.swing.JButton btnTesting;
@@ -665,6 +865,7 @@ public class UI_automata1 extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTable1;
     private javax.swing.JTextField setOfFinalStatesFields;
     private javax.swing.JTextField setOfStatesField;
