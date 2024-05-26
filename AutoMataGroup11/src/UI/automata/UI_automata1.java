@@ -1,6 +1,7 @@
 
 package UI.automata;
 
+import java.awt.Color;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 
@@ -104,30 +105,85 @@ public class UI_automata1 extends javax.swing.JFrame {
         jLabel7.setFont(new java.awt.Font("Times New Roman", 0, 24)); // NOI18N
         jLabel7.setText("Input start states");
 
+        setOfStatesField.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        setOfStatesField.setForeground(new java.awt.Color(153, 153, 153));
+        setOfStatesField.setText("{q0,q1,q2,q3}");
+        setOfStatesField.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                setOfStatesFieldFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                setOfStatesFieldFocusLost(evt);
+            }
+        });
         setOfStatesField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 setOfStatesFieldActionPerformed(evt);
             }
         });
 
+        setOfSymbolsField.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        setOfSymbolsField.setForeground(new java.awt.Color(153, 153, 153));
+        setOfSymbolsField.setText("{a,b}");
+        setOfSymbolsField.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                setOfSymbolsFieldFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                setOfSymbolsFieldFocusLost(evt);
+            }
+        });
         setOfSymbolsField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 setOfSymbolsFieldActionPerformed(evt);
             }
         });
 
+        transitionFunctionField.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        transitionFunctionField.setForeground(new java.awt.Color(153, 153, 153));
+        transitionFunctionField.setText("{q0,a,q1}, {q0,b,q1}");
+        transitionFunctionField.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                transitionFunctionFieldFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                transitionFunctionFieldFocusLost(evt);
+            }
+        });
         transitionFunctionField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 transitionFunctionFieldActionPerformed(evt);
             }
         });
 
+        startStateField.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        startStateField.setForeground(new java.awt.Color(153, 153, 153));
+        startStateField.setText("q0");
+        startStateField.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                startStateFieldFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                startStateFieldFocusLost(evt);
+            }
+        });
         startStateField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 startStateFieldActionPerformed(evt);
             }
         });
 
+        setOfFinalStatesFields.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        setOfFinalStatesFields.setForeground(new java.awt.Color(153, 153, 153));
+        setOfFinalStatesFields.setText("{q3}");
+        setOfFinalStatesFields.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                setOfFinalStatesFieldsFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                setOfFinalStatesFieldsFocusLost(evt);
+            }
+        });
         setOfFinalStatesFields.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 setOfFinalStatesFieldsActionPerformed(evt);
@@ -583,6 +639,96 @@ public class UI_automata1 extends javax.swing.JFrame {
     private void btnTestingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTestingActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnTestingActionPerformed
+
+    private void setOfStatesFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_setOfStatesFieldFocusGained
+        // TODO add your handling code here:
+        if(setOfStatesField.getText().equals("{q0,q1,q2,q3}"))
+        {
+            setOfStatesField.setText("");
+            setOfStatesField.setForeground(new Color(153,153,153));
+        }
+    }//GEN-LAST:event_setOfStatesFieldFocusGained
+
+    private void setOfStatesFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_setOfStatesFieldFocusLost
+        // TODO add your handling code here:
+         if(setOfStatesField.getText().equals(""))
+        {
+            setOfStatesField.setText("{q0,q1,q2,q3}");
+            setOfStatesField.setForeground(new Color(153,153,153));
+        }
+    }//GEN-LAST:event_setOfStatesFieldFocusLost
+
+    private void setOfSymbolsFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_setOfSymbolsFieldFocusGained
+        // TODO add your handling code here:
+        if(setOfSymbolsField.getText().equals("{a,b}"))
+        {
+            setOfSymbolsField.setText("");
+            setOfSymbolsField.setForeground(new Color(153,153,153));
+        }
+    }//GEN-LAST:event_setOfSymbolsFieldFocusGained
+
+    private void setOfSymbolsFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_setOfSymbolsFieldFocusLost
+        // TODO add your handling code here:
+        if(setOfSymbolsField.getText().equals(""))
+        {
+            setOfSymbolsField.setText("{a,b}");
+            setOfSymbolsField.setForeground(new Color(153,153,153));
+        }
+    }//GEN-LAST:event_setOfSymbolsFieldFocusLost
+
+    private void transitionFunctionFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_transitionFunctionFieldFocusGained
+        // TODO add your handling code here:
+        if(transitionFunctionField.getText().equals("{q0,a,q1}, {q0,b,q1}"))
+        {
+            transitionFunctionField.setText("");
+            transitionFunctionField.setForeground(new Color(153,153,153));
+        }
+    }//GEN-LAST:event_transitionFunctionFieldFocusGained
+
+    private void transitionFunctionFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_transitionFunctionFieldFocusLost
+        // TODO add your handling code here:
+        if(transitionFunctionField.getText().equals(""))
+        {
+            transitionFunctionField.setText("{q0,a,q1}, {q0,b,q1}");
+            transitionFunctionField.setForeground(new Color(153,153,153));
+        }
+    }//GEN-LAST:event_transitionFunctionFieldFocusLost
+
+    private void startStateFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_startStateFieldFocusGained
+        // TODO add your handling code here:
+        if(startStateField.getText().equals("q0"))
+        {
+            startStateField.setText("");
+            startStateField.setForeground(new Color(153,153,153));
+        }
+    }//GEN-LAST:event_startStateFieldFocusGained
+
+    private void startStateFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_startStateFieldFocusLost
+        // TODO add your handling code here:
+        if(startStateField.getText().equals(""))
+        {
+            startStateField.setText("q0");
+            startStateField.setForeground(new Color(153,153,153));
+        }
+    }//GEN-LAST:event_startStateFieldFocusLost
+
+    private void setOfFinalStatesFieldsFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_setOfFinalStatesFieldsFocusGained
+        // TODO add your handling code here:
+        if(setOfFinalStatesFields.getText().equals("{q3}"))
+        {
+            setOfFinalStatesFields.setText("");
+            setOfFinalStatesFields.setForeground(new Color(153,153,153));
+        }
+    }//GEN-LAST:event_setOfFinalStatesFieldsFocusGained
+
+    private void setOfFinalStatesFieldsFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_setOfFinalStatesFieldsFocusLost
+        // TODO add your handling code here:
+        if(setOfFinalStatesFields.getText().equals(""))
+        {
+            setOfFinalStatesFields.setText("{q3}");
+            setOfFinalStatesFields.setForeground(new Color(153,153,153));
+        }
+    }//GEN-LAST:event_setOfFinalStatesFieldsFocusLost
 
     /**
      * @param args the command line arguments
