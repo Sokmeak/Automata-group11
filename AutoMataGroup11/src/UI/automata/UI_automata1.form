@@ -52,7 +52,7 @@
                               <Group type="102" attributes="0">
                                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
                                       <Group type="102" attributes="0">
-                                          <Component id="btnCheck1" min="-2" pref="205" max="-2" attributes="0"/>
+                                          <Component id="btnCheckFA" min="-2" pref="205" max="-2" attributes="0"/>
                                           <EmptySpace min="-2" pref="50" max="-2" attributes="0"/>
                                           <Component id="btnConstruct" min="-2" pref="205" max="-2" attributes="0"/>
                                       </Group>
@@ -95,7 +95,7 @@
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="btnMinimize" alignment="3" min="-2" pref="48" max="-2" attributes="0"/>
                               <Component id="btnConstruct" alignment="3" min="-2" pref="48" max="-2" attributes="0"/>
-                              <Component id="btnCheck1" alignment="3" min="-2" pref="48" max="-2" attributes="0"/>
+                              <Component id="btnCheckFA" alignment="3" min="-2" pref="48" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
@@ -452,7 +452,7 @@
             </Property>
           </Properties>
         </Component>
-        <Component class="javax.swing.JButton" name="btnCheck1">
+        <Component class="javax.swing.JButton" name="btnCheckFA">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="ff" green="0" red="0" type="rgb"/>
@@ -466,7 +466,7 @@
             <Property name="text" type="java.lang.String" value="Check FA"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnCheck1ActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnCheckFAActionPerformed"/>
           </Events>
         </Component>
         <Component class="javax.swing.JButton" name="btnConstruct">

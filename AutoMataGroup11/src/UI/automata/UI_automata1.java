@@ -222,7 +222,7 @@ public class UI_automata1 extends javax.swing.JFrame {
         btnTesting = new javax.swing.JButton();
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
-        btnCheck1 = new javax.swing.JButton();
+        btnCheckFA = new javax.swing.JButton();
         btnConstruct = new javax.swing.JButton();
         testStringfield = new javax.swing.JTextField();
         jPanel2 = new javax.swing.JPanel();
@@ -484,13 +484,13 @@ public class UI_automata1 extends javax.swing.JFrame {
 
         jLabel10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/rsz_1rsz_1rsz_1rsz_1pencil.png"))); // NOI18N
 
-        btnCheck1.setBackground(new java.awt.Color(0, 0, 255));
-        btnCheck1.setFont(new java.awt.Font("Times New Roman", 1, 17)); // NOI18N
-        btnCheck1.setForeground(new java.awt.Color(255, 255, 255));
-        btnCheck1.setText("Check FA");
-        btnCheck1.addActionListener(new java.awt.event.ActionListener() {
+        btnCheckFA.setBackground(new java.awt.Color(0, 0, 255));
+        btnCheckFA.setFont(new java.awt.Font("Times New Roman", 1, 17)); // NOI18N
+        btnCheckFA.setForeground(new java.awt.Color(255, 255, 255));
+        btnCheckFA.setText("Check FA");
+        btnCheckFA.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCheck1ActionPerformed(evt);
+                btnCheckFAActionPerformed(evt);
             }
         });
 
@@ -534,7 +534,7 @@ public class UI_automata1 extends javax.swing.JFrame {
                             .addGroup(Main1Layout.createSequentialGroup()
                                 .addGroup(Main1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addGroup(Main1Layout.createSequentialGroup()
-                                        .addComponent(btnCheck1, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(btnCheckFA, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(50, 50, 50)
                                         .addComponent(btnConstruct, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addComponent(testStringfield))
@@ -566,7 +566,7 @@ public class UI_automata1 extends javax.swing.JFrame {
                         .addGroup(Main1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btnMinimize, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnConstruct, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnCheck1, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(btnCheckFA, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(Main1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(BtnTeststring, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -706,118 +706,7 @@ public class UI_automata1 extends javax.swing.JFrame {
     private void btnMinimizeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMinimizeActionPerformed
         // TODO add your handling code here:
      // Write code to get user input here!
-       int numState = Integer.parseInt(setOfStatesField.getText());
-       String setOfSymbol = setOfSymbolsField.getText();
-       String transitionFunction = transitionFunctionField.getText();
-       String startState = startStateField.getText();
-       String setFinalState = setOfFinalStatesFields.getText();
-       
-       String dfName = headerName.getText();
-       String date =  new SimpleDateFormat("yyyy-MM-dd").format(new Date());
-       
-       
-       
-       /// check FA here 
-       
-      //1. no epsilon transition
-      //2. number of transitions equal to number of states x number of symbols
       
-      // how to count number of symbol
-      // how to count number of transition
-      String mySymbol[] = setOfSymbol.split("[{,} ]", 0);
-      String myTranf[] = transitionFunction.split(";",0);
-      
-      for (String s :myTranf ){
-          System.out.println(s);
-      }
-      
-      int numOfTranf = myTranf.length;
-      
-        System.out.println("num of transition functions="+numOfTranf);
-      
-      
-      
-      // str = "ab"
-      
-      
-      
-      System.out.println(setOfSymbol);
-      
-      String joinedStr= String.join("",mySymbol);
-      
-      int numOfSymbol = joinedStr.length();
-      
-      
-      
-      
-  
-       
-       
-      
-      boolean IsEqual;
-      String messageDFA =" \n => It is a NFA";
-
-      IsEqual = (numOfSymbol*numState) == numOfTranf;
-      
-        System.out.println(IsEqual);
-      if((!(transitionFunction.contains("ε"))) && IsEqual){
-        messageDFA = " \n => It is a DFA";
-          
-      }
-       
-      
-        Automaton auto = new Automaton();
-       
-    Object[] row = {dfName, date};
-
-    DefaultTableModel model = (DefaultTableModel) RecentTable.getModel();
-
-    model.addRow(row);
-
-                
-        
-        
-        auto.setNumberOfState(numState);
-        auto.setSetofSymbols(setOfSymbol);
-        auto.setTransitionFunctions(transitionFunction);
-        auto.setStartState(startState);
-        auto.setSetofFinalStates(setFinalState);
-        
-        
-        
-        
-        System.out.println( auto.toString());
-        
-        
-        
-        String myContent = auto.toString();
-        
-        String myRealMeassage = myContent +"\n"+ messageDFA;
-         // Create and set up the text area
-        OutputArea.setText(myRealMeassage);
-        OutputArea.setEditable(false);  // Make the text area read-only
-        OutputArea.setLineWrap(true);   // Enable line wrapping
-        OutputArea.setWrapStyleWord(true); // Wrap at word boundaries
-        
-        
-//        setOfStatesField.setText("");
-//        setOfSymbolsField.setText("");
-//       transitionFunctionField.setText("");
-//       startStateField.setText("");
-//       setOfFinalStatesFields.setText("");
-//      
-        
-       
-
-        
-        
-        // use function split string before insert into object of class
-        
-        
-        
-        
-            
-               
         
     }//GEN-LAST:event_btnMinimizeActionPerformed
 
@@ -986,9 +875,123 @@ public class UI_automata1 extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_setOfFinalStatesFieldsFocusLost
 
-    private void btnCheck1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCheck1ActionPerformed
+    private void btnCheckFAActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCheckFAActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_btnCheck1ActionPerformed
+        
+        
+         int numState = Integer.parseInt(setOfStatesField.getText());
+       String setOfSymbol = setOfSymbolsField.getText();
+       String transitionFunction = transitionFunctionField.getText();
+       String startState = startStateField.getText();
+       String setFinalState = setOfFinalStatesFields.getText();
+       
+       String dfName = headerName.getText();
+       String date =  new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+       
+       
+       
+       /// check FA here 
+       
+      //1. no epsilon transition
+      //2. number of transitions equal to number of states x number of symbols
+      
+      // how to count number of symbol
+      // how to count number of transition
+      String mySymbol[] = setOfSymbol.split("[{,} ]", 0);
+      String myTranf[] = transitionFunction.split(";",0);
+      
+      for (String s :myTranf ){
+          System.out.println(s);
+      }
+      
+      int numOfTranf = myTranf.length;
+      
+        System.out.println("num of transition functions="+numOfTranf);
+      
+      
+      
+      // str = "ab"
+      
+      
+      
+      System.out.println(setOfSymbol);
+      
+      String joinedStr= String.join("",mySymbol);
+      
+      int numOfSymbol = joinedStr.length();
+      
+      
+      
+      
+  
+       
+       
+      
+      boolean IsEqual;
+      String messageDFA =" \n => It is a NFA";
+
+      IsEqual = (numOfSymbol*numState) == numOfTranf;
+      
+        System.out.println(IsEqual);
+      if((!(transitionFunction.contains("ε"))) && IsEqual){
+        messageDFA = " \n => It is a DFA";
+          
+      }
+       
+      
+        Automaton auto = new Automaton();
+       
+    Object[] row = {dfName, date};
+
+    DefaultTableModel model = (DefaultTableModel) RecentTable.getModel();
+
+    model.addRow(row);
+
+                
+        
+        
+        auto.setNumberOfState(numState);
+        auto.setSetofSymbols(setOfSymbol);
+        auto.setTransitionFunctions(transitionFunction);
+        auto.setStartState(startState);
+        auto.setSetofFinalStates(setFinalState);
+        
+        
+        
+        
+        System.out.println( auto.toString());
+        
+        
+        
+        String myContent = auto.toString();
+        
+        String myRealMeassage = myContent +"\n"+ messageDFA;
+         // Create and set up the text area
+        OutputArea.setText(myRealMeassage);
+        OutputArea.setEditable(false);  // Make the text area read-only
+        OutputArea.setLineWrap(true);   // Enable line wrapping
+        OutputArea.setWrapStyleWord(true); // Wrap at word boundaries
+        
+        
+//        setOfStatesField.setText("");
+//        setOfSymbolsField.setText("");
+//       transitionFunctionField.setText("");
+//       startStateField.setText("");
+//       setOfFinalStatesFields.setText("");
+//      
+        
+       
+
+        
+        
+        // use function split string before insert into object of class
+        
+        
+        
+        
+            
+               
+    }//GEN-LAST:event_btnCheckFAActionPerformed
 
     private void btnConstructActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConstructActionPerformed
         // TODO add your handling code here:
@@ -1072,7 +1075,7 @@ public class UI_automata1 extends javax.swing.JFrame {
     private javax.swing.JTextArea OutputArea;
     private javax.swing.JTable RecentTable;
     private javax.swing.JButton btnBack;
-    private javax.swing.JButton btnCheck1;
+    private javax.swing.JButton btnCheckFA;
     private javax.swing.JButton btnConstruct;
     private javax.swing.JButton btnMinimize;
     private javax.swing.JButton btnTesting;
