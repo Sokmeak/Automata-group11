@@ -19,7 +19,7 @@ import javax.swing.table.DefaultTableModel;
 public class UI_automata1 extends javax.swing.JFrame {
     
     public Color SetColor1(){
-        return new Color(83, 94, 106);
+        return new Color(153, 153, 153);
     }
     
 
@@ -215,18 +215,16 @@ public class UI_automata1 extends javax.swing.JFrame {
         transitionFunctionField = new javax.swing.JTextField();
         startStateField = new javax.swing.JTextField();
         setOfFinalStatesFields = new javax.swing.JTextField();
-        btnCheck = new javax.swing.JButton();
+        btnMinimize = new javax.swing.JButton();
         BtnTeststring = new javax.swing.JButton();
-        constructBtn = new javax.swing.JButton();
-        Btnminimize = new javax.swing.JButton();
         Main2 = new javax.swing.JPanel();
-        jPanel5 = new javax.swing.JPanel();
-        jLabel8 = new javax.swing.JLabel();
-        setOfStatesField1 = new javax.swing.JTextField();
         btnBack = new javax.swing.JButton();
         btnTesting = new javax.swing.JButton();
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
+        btnCheck1 = new javax.swing.JButton();
+        btnConstruct = new javax.swing.JButton();
+        testStringfield = new javax.swing.JTextField();
         jPanel2 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         BtnRefresh = new javax.swing.JButton();
@@ -274,6 +272,8 @@ public class UI_automata1 extends javax.swing.JFrame {
         jLabel7.setText("Input start state");
 
         setOfStatesField.setFont(new java.awt.Font("Times New Roman", 0, 21)); // NOI18N
+        setOfStatesField.setForeground(new java.awt.Color(153, 153, 153));
+        setOfStatesField.setText("2");
         setOfStatesField.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 setOfStatesFieldFocusGained(evt);
@@ -289,6 +289,8 @@ public class UI_automata1 extends javax.swing.JFrame {
         });
 
         setOfSymbolsField.setFont(new java.awt.Font("Times New Roman", 0, 21)); // NOI18N
+        setOfSymbolsField.setForeground(new java.awt.Color(153, 153, 153));
+        setOfSymbolsField.setText("{a, b}");
         setOfSymbolsField.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 setOfSymbolsFieldFocusGained(evt);
@@ -304,6 +306,8 @@ public class UI_automata1 extends javax.swing.JFrame {
         });
 
         transitionFunctionField.setFont(new java.awt.Font("Times New Roman", 0, 21)); // NOI18N
+        transitionFunctionField.setForeground(new java.awt.Color(153, 153, 153));
+        transitionFunctionField.setText("{q0=>q1, a};{q0=>q0, b}");
         transitionFunctionField.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 transitionFunctionFieldFocusGained(evt);
@@ -319,6 +323,8 @@ public class UI_automata1 extends javax.swing.JFrame {
         });
 
         startStateField.setFont(new java.awt.Font("Times New Roman", 0, 21)); // NOI18N
+        startStateField.setForeground(new java.awt.Color(153, 153, 153));
+        startStateField.setText("q0");
         startStateField.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 startStateFieldFocusGained(evt);
@@ -334,6 +340,8 @@ public class UI_automata1 extends javax.swing.JFrame {
         });
 
         setOfFinalStatesFields.setFont(new java.awt.Font("Times New Roman", 0, 21)); // NOI18N
+        setOfFinalStatesFields.setForeground(new java.awt.Color(153, 153, 153));
+        setOfFinalStatesFields.setText("{q1}");
         setOfFinalStatesFields.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 setOfFinalStatesFieldsFocusGained(evt);
@@ -369,11 +377,11 @@ public class UI_automata1 extends javax.swing.JFrame {
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(82, 82, 82)
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(setOfSymbolsField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 264, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(setOfStatesField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 264, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(35, Short.MAX_VALUE))
+                            .addComponent(setOfStatesField, javax.swing.GroupLayout.PREFERRED_SIZE, 264, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(setOfSymbolsField, javax.swing.GroupLayout.PREFERRED_SIZE, 264, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(0, 32, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -394,20 +402,20 @@ public class UI_automata1 extends javax.swing.JFrame {
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(startStateField, javax.swing.GroupLayout.DEFAULT_SIZE, 53, Short.MAX_VALUE))
-                .addGap(36, 36, 36)
+                .addGap(18, 18, 18)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(setOfFinalStatesFields, javax.swing.GroupLayout.DEFAULT_SIZE, 53, Short.MAX_VALUE))
-                .addGap(51, 51, 51))
+                .addGap(0, 24, Short.MAX_VALUE))
         );
 
-        btnCheck.setBackground(new java.awt.Color(0, 0, 255));
-        btnCheck.setFont(new java.awt.Font("Times New Roman", 1, 17)); // NOI18N
-        btnCheck.setForeground(new java.awt.Color(255, 255, 255));
-        btnCheck.setText("Check FA");
-        btnCheck.addActionListener(new java.awt.event.ActionListener() {
+        btnMinimize.setBackground(new java.awt.Color(0, 0, 255));
+        btnMinimize.setFont(new java.awt.Font("Times New Roman", 1, 17)); // NOI18N
+        btnMinimize.setForeground(new java.awt.Color(255, 255, 255));
+        btnMinimize.setText("Minimize FA");
+        btnMinimize.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCheckActionPerformed(evt);
+                btnMinimizeActionPerformed(evt);
             }
         });
 
@@ -421,62 +429,7 @@ public class UI_automata1 extends javax.swing.JFrame {
             }
         });
 
-        constructBtn.setBackground(new java.awt.Color(0, 0, 255));
-        constructBtn.setFont(new java.awt.Font("Times New Roman", 1, 17)); // NOI18N
-        constructBtn.setForeground(new java.awt.Color(255, 255, 255));
-        constructBtn.setText("Construct FA");
-        constructBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                constructBtnActionPerformed(evt);
-            }
-        });
-
-        Btnminimize.setBackground(new java.awt.Color(0, 0, 255));
-        Btnminimize.setFont(new java.awt.Font("Times New Roman", 1, 17)); // NOI18N
-        Btnminimize.setForeground(new java.awt.Color(255, 255, 255));
-        Btnminimize.setText("Minimize FA");
-        Btnminimize.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BtnminimizeActionPerformed(evt);
-            }
-        });
-
         Main2.setBackground(new java.awt.Color(255, 255, 255));
-
-        jPanel5.setBackground(new java.awt.Color(204, 204, 204));
-        jPanel5.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-
-        jLabel8.setFont(new java.awt.Font("Times New Roman", 0, 24)); // NOI18N
-        jLabel8.setText("Input string here");
-
-        setOfStatesField1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                setOfStatesField1ActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
-        jPanel5.setLayout(jPanel5Layout);
-        jPanel5Layout.setHorizontalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel5Layout.createSequentialGroup()
-                .addGap(73, 73, 73)
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addGap(6, 6, 6)
-                        .addComponent(setOfStatesField1, javax.swing.GroupLayout.PREFERRED_SIZE, 553, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(78, Short.MAX_VALUE))
-        );
-        jPanel5Layout.setVerticalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel5Layout.createSequentialGroup()
-                .addGap(37, 37, 37)
-                .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(setOfStatesField1, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(49, Short.MAX_VALUE))
-        );
 
         btnBack.setBackground(new java.awt.Color(0, 0, 255));
         btnBack.setFont(new java.awt.Font("Times New Roman", 1, 17)); // NOI18N
@@ -506,11 +459,8 @@ public class UI_automata1 extends javax.swing.JFrame {
         Main2Layout.setHorizontalGroup(
             Main2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(Main2Layout.createSequentialGroup()
-                .addContainerGap(34, Short.MAX_VALUE)
+                .addContainerGap(45, Short.MAX_VALUE)
                 .addGroup(Main2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, Main2Layout.createSequentialGroup()
-                        .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(36, 36, 36))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, Main2Layout.createSequentialGroup()
                         .addComponent(btnBack, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(119, 119, 119)
@@ -525,9 +475,7 @@ public class UI_automata1 extends javax.swing.JFrame {
             .addGroup(Main2Layout.createSequentialGroup()
                 .addGap(19, 19, 19)
                 .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addGap(244, 244, 244)
                 .addGroup(Main2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnBack, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnTesting, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -536,6 +484,43 @@ public class UI_automata1 extends javax.swing.JFrame {
 
         jLabel10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/rsz_1rsz_1rsz_1rsz_1pencil.png"))); // NOI18N
 
+        btnCheck1.setBackground(new java.awt.Color(0, 0, 255));
+        btnCheck1.setFont(new java.awt.Font("Times New Roman", 1, 17)); // NOI18N
+        btnCheck1.setForeground(new java.awt.Color(255, 255, 255));
+        btnCheck1.setText("Check FA");
+        btnCheck1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCheck1ActionPerformed(evt);
+            }
+        });
+
+        btnConstruct.setBackground(new java.awt.Color(0, 0, 255));
+        btnConstruct.setFont(new java.awt.Font("Times New Roman", 1, 17)); // NOI18N
+        btnConstruct.setForeground(new java.awt.Color(255, 255, 255));
+        btnConstruct.setText("Construct FA");
+        btnConstruct.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnConstructActionPerformed(evt);
+            }
+        });
+
+        testStringfield.setFont(new java.awt.Font("Times New Roman", 0, 21)); // NOI18N
+        testStringfield.setForeground(new java.awt.Color(153, 153, 153));
+        testStringfield.setText("aabb");
+        testStringfield.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                testStringfieldFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                testStringfieldFocusLost(evt);
+            }
+        });
+        testStringfield.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                testStringfieldActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout Main1Layout = new javax.swing.GroupLayout(Main1);
         Main1.setLayout(Main1Layout);
         Main1Layout.setHorizontalGroup(
@@ -543,22 +528,25 @@ public class UI_automata1 extends javax.swing.JFrame {
             .addGroup(Main1Layout.createSequentialGroup()
                 .addGroup(Main1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(Main1Layout.createSequentialGroup()
-                        .addGap(180, 180, 180)
-                        .addComponent(headerName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel10))
-                    .addGroup(Main1Layout.createSequentialGroup()
-                        .addGap(39, 39, 39)
+                        .addGap(45, 45, 45)
                         .addGroup(Main1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(Main1Layout.createSequentialGroup()
-                                .addComponent(btnCheck, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(61, 61, 61)
-                                .addComponent(BtnTeststring, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(41, 41, 41)
-                                .addComponent(constructBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(41, 41, 41)
-                                .addComponent(Btnminimize, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                .addGroup(Main1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addGroup(Main1Layout.createSequentialGroup()
+                                        .addComponent(btnCheck1, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(50, 50, 50)
+                                        .addComponent(btnConstruct, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(testStringfield))
+                                .addGap(46, 46, 46)
+                                .addGroup(Main1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(btnMinimize, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(BtnTeststring, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                    .addGroup(Main1Layout.createSequentialGroup()
+                        .addGap(180, 180, 180)
+                        .addComponent(headerName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel10)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(Main2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
@@ -567,22 +555,23 @@ public class UI_automata1 extends javax.swing.JFrame {
             .addGroup(Main1Layout.createSequentialGroup()
                 .addGap(20, 20, 20)
                 .addGroup(Main1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(Main1Layout.createSequentialGroup()
-                        .addComponent(Main2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(Main2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(Main1Layout.createSequentialGroup()
                         .addGroup(Main1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(headerName, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel10))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(29, 29, 29)
-                        .addGroup(Main1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnCheck, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(34, 34, 34)
+                        .addGroup(Main1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnMinimize, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnConstruct, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnCheck1, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(Main1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(BtnTeststring, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(constructBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(Btnminimize, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(57, 57, 57))))
+                            .addComponent(testStringfield, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         getContentPane().add(Main1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 790, 690));
@@ -712,13 +701,9 @@ public class UI_automata1 extends javax.swing.JFrame {
     private void BtnTeststringActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnTeststringActionPerformed
         // TODO add your handling code here
          
-                UI_automata1 ui1 = new UI_automata1();
-        ui1.setVisible(false);
-        UI_automata2 ui2 = new UI_automata2();
-        ui2.setVisible(true);
     }//GEN-LAST:event_BtnTeststringActionPerformed
 
-    private void btnCheckActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCheckActionPerformed
+    private void btnMinimizeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMinimizeActionPerformed
         // TODO add your handling code here:
      // Write code to get user input here!
        int numState = Integer.parseInt(setOfStatesField.getText());
@@ -731,6 +716,54 @@ public class UI_automata1 extends javax.swing.JFrame {
        String date =  new SimpleDateFormat("yyyy-MM-dd").format(new Date());
        
        
+       
+       /// check FA here 
+       
+      //1. no epsilon transition
+      //2. number of transitions equal to number of states x number of symbols
+      
+      // how to count number of symbol
+      // how to count number of transition
+      String mySymbol[] = setOfSymbol.split("[{,} ]", 0);
+      String myTranf[] = transitionFunction.split(";",0);
+      
+      for (String s :myTranf ){
+          System.out.println(s);
+      }
+      
+      int numOfTranf = myTranf.length;
+      
+        System.out.println("num of transition functions="+numOfTranf);
+      
+      
+      
+      // str = "ab"
+      
+      
+      
+      System.out.println(setOfSymbol);
+      
+      String joinedStr= String.join("",mySymbol);
+      
+      int numOfSymbol = joinedStr.length();
+      
+      
+      
+      
+  
+       
+       
+      
+      boolean IsEqual;
+      String messageDFA =" \n => It is a NFA";
+
+      IsEqual = (numOfSymbol*numState) == numOfTranf;
+      
+        System.out.println(IsEqual);
+      if((!(transitionFunction.contains("ε"))) && IsEqual){
+        messageDFA = " \n => It is a DFA";
+          
+      }
        
       
         Automaton auto = new Automaton();
@@ -755,22 +788,24 @@ public class UI_automata1 extends javax.swing.JFrame {
         
         System.out.println( auto.toString());
         
+        
+        
         String myContent = auto.toString();
         
-        
+        String myRealMeassage = myContent +"\n"+ messageDFA;
          // Create and set up the text area
-        OutputArea.setText(myContent);
+        OutputArea.setText(myRealMeassage);
         OutputArea.setEditable(false);  // Make the text area read-only
         OutputArea.setLineWrap(true);   // Enable line wrapping
         OutputArea.setWrapStyleWord(true); // Wrap at word boundaries
         
         
-        setOfStatesField.setText("");
-        setOfSymbolsField.setText("");
-       transitionFunctionField.setText("");
-       startStateField.setText("");
-       setOfFinalStatesFields.setText("");
-      
+//        setOfStatesField.setText("");
+//        setOfSymbolsField.setText("");
+//       transitionFunctionField.setText("");
+//       startStateField.setText("");
+//       setOfFinalStatesFields.setText("");
+//      
         
        
 
@@ -784,15 +819,7 @@ public class UI_automata1 extends javax.swing.JFrame {
             
                
         
-    }//GEN-LAST:event_btnCheckActionPerformed
-
-    private void constructBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_constructBtnActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_constructBtnActionPerformed
-
-    private void BtnminimizeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnminimizeActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_BtnminimizeActionPerformed
+    }//GEN-LAST:event_btnMinimizeActionPerformed
 
     private void BtnRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnRefreshActionPerformed
         // TODO add your handling code here:
@@ -831,10 +858,6 @@ public class UI_automata1 extends javax.swing.JFrame {
     private void setOfFinalStatesFieldsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_setOfFinalStatesFieldsActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_setOfFinalStatesFieldsActionPerformed
-
-    private void setOfStatesField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_setOfStatesField1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_setOfStatesField1ActionPerformed
 
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
         // TODO add your handling code here:
@@ -891,7 +914,7 @@ public class UI_automata1 extends javax.swing.JFrame {
     private void transitionFunctionFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_transitionFunctionFieldFocusGained
         // TODO add your handling code here:
         
-         if(transitionFunctionField.getText().equals("{q0=>q1, a}"))
+         if(transitionFunctionField.getText().equals("{q0=>q1, a};{q0=>q0, b}"))
         {
            transitionFunctionField.setText("");
             transitionFunctionField.setForeground(SetColor1());
@@ -920,7 +943,7 @@ public class UI_automata1 extends javax.swing.JFrame {
         // TODO add your handling code here:
         if(transitionFunctionField.getText().equals(""))
         {
-            transitionFunctionField.setText("{q0=>q1, a}");
+            transitionFunctionField.setText("{q0=>q1, a};{q0=>q0, b}");
             transitionFunctionField.setForeground(SetColor1());
         }
     }//GEN-LAST:event_transitionFunctionFieldFocusLost
@@ -962,6 +985,26 @@ public class UI_automata1 extends javax.swing.JFrame {
            setOfFinalStatesFields.setForeground(SetColor1());
         }
     }//GEN-LAST:event_setOfFinalStatesFieldsFocusLost
+
+    private void btnCheck1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCheck1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnCheck1ActionPerformed
+
+    private void btnConstructActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConstructActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnConstructActionPerformed
+
+    private void testStringfieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_testStringfieldFocusGained
+        // TODO add your handling code here:
+    }//GEN-LAST:event_testStringfieldFocusGained
+
+    private void testStringfieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_testStringfieldFocusLost
+        // TODO add your handling code here:
+    }//GEN-LAST:event_testStringfieldFocusLost
+
+    private void testStringfieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_testStringfieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_testStringfieldActionPerformed
 
     
     
@@ -1022,7 +1065,6 @@ public class UI_automata1 extends javax.swing.JFrame {
     private javax.swing.JButton BtnTeststring;
     private javax.swing.JButton Btndelete;
     private javax.swing.JButton Btnload;
-    private javax.swing.JButton Btnminimize;
     private javax.swing.JButton Btnsave;
     private javax.swing.JButton Btnupdate;
     private javax.swing.JPanel Main1;
@@ -1030,9 +1072,10 @@ public class UI_automata1 extends javax.swing.JFrame {
     private javax.swing.JTextArea OutputArea;
     private javax.swing.JTable RecentTable;
     private javax.swing.JButton btnBack;
-    private javax.swing.JButton btnCheck;
+    private javax.swing.JButton btnCheck1;
+    private javax.swing.JButton btnConstruct;
+    private javax.swing.JButton btnMinimize;
     private javax.swing.JButton btnTesting;
-    private javax.swing.JButton constructBtn;
     private javax.swing.JTextField headerName;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -1042,19 +1085,17 @@ public class UI_automata1 extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
-    private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTextField setOfFinalStatesFields;
     private javax.swing.JTextField setOfStatesField;
-    private javax.swing.JTextField setOfStatesField1;
     private javax.swing.JTextField setOfSymbolsField;
     private javax.swing.JTextField startStateField;
+    private javax.swing.JTextField testStringfield;
     private javax.swing.JTextField transitionFunctionField;
     // End of variables declaration//GEN-END:variables
 }
