@@ -22,6 +22,70 @@ public class UI_automata1 extends javax.swing.JFrame {
         return new Color(153, 153, 153);
     }
     
+    
+//    String str, int numState, String [] tranFunction, String startState, String finalState
+public boolean TestString(String str, int numState, String [] tranFunction, String startState, String finalState){
+    boolean IsAccept = false;
+    
+      String strNew = str;
+        int numStateNew = numState;
+        
+         String[] stateGenerate = new String [numStateNew];
+        for(int i = 0 ; i< numStateNew; i++){
+            stateGenerate[i] = "q" + i;
+        }
+        
+       // String symbolsNew[] = {"a","b"};
+        
+      // {"q0=>q1,a","q0=>q0,b","q1=>q1,a","q1=>q2,b","q2=>q2,a","q2=>q2,b"};
+        String tranFunctionNew [] = tranFunction;
+        String startStateNew = startState;
+        String finalStartNew= finalState;
+        
+        String testSymbol = "";
+        
+        
+        String currentState = startStateNew;
+//        char currentSymbol;
+//        
+        String myTransitionWithSymbol = "";
+        
+        
+        for(int i =0 ; i<strNew.length(); i++){
+            testSymbol = String.valueOf( strNew.charAt(i));
+            
+            for(int j = 0; j < numStateNew ; j++){
+                
+                myTransitionWithSymbol = startStateNew +"=>"+stateGenerate[j] +","+testSymbol;
+                for (String tran : tranFunctionNew) {
+                    if (myTransitionWithSymbol.equals(tran)) {
+                        currentState = stateGenerate[j];
+                          System.out.println(currentState);
+                        break;
+                    }
+                }  
+                if(finalStartNew.contains(currentState)){
+                    IsAccept = true;
+                }
+                
+            }
+            
+            startStateNew = currentState; 
+        }
+        
+
+
+    if(IsAccept == true){
+            System.out.println("Accept!");
+      }else {
+            System.out.println("Reject!");
+      }
+   
+    
+    return IsAccept;
+    
+}
+    
 
     /**
      * Creates new form UI_automata2
@@ -700,6 +764,34 @@ public class UI_automata1 extends javax.swing.JFrame {
 
     private void BtnTeststringActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnTeststringActionPerformed
         // TODO add your handling code here
+        
+       int numState = Integer.parseInt(setOfStatesField.getText());
+       String setOfSymbol = setOfSymbolsField.getText();
+       String transitionFunctionNew[] = (transitionFunctionField.getText()).split("[{;}]",0);
+       String startState = startStateField.getText();
+       String setFinalState = setOfFinalStatesFields.getText();
+       
+       String stringToTest = testStringfield.getText();
+       String contentTest = "";
+       
+       boolean IsAcceptMyString = TestString(stringToTest, numState, transitionFunctionNew, startState, setFinalState);
+       
+       if(IsAcceptMyString == true){
+           contentTest = "=> String \""+stringToTest+"\" is accepted!";
+       }else{
+             contentTest = "=> String \""+stringToTest+"\" is rejected!";
+       }
+       
+       
+      
+       
+       OutputArea.setText(contentTest);
+       
+       
+        
+        
+        
+       
          
     }//GEN-LAST:event_BtnTeststringActionPerformed
 
