@@ -1,127 +1,131 @@
-
 package UI.automata;
 
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 import javax.swing.JOptionPane;
 import java.awt.Color;
+import java.awt.List;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
-
 
 /**
  *
  * @author Admin
  */
 public class UI_automata1 extends javax.swing.JFrame {
-    
-    public Color SetColor1(){
-        return new Color(153, 153, 153);
+
+    public Color SetColor1() {
+        return new Color(104, 105, 106);
     }
-    
-    
+
 //    String str, int numState, String [] tranFunction, String startState, String finalState
-public boolean TestString(String str, int numState, String [] tranFunction, String startState, String finalState){
-    boolean IsAccept = false;
-    
-      String strNew = str;
+    public boolean TestString(String str, int numState, String[] tranFunction, String startState, String finalState) {
+        boolean IsAccept = false;
+
+        String strNew = str;
         int numStateNew = numState;
-        
-         String[] stateGenerate = new String [numStateNew];
-        for(int i = 0 ; i< numStateNew; i++){
+
+        String[] stateGenerate = new String[numStateNew];
+        for (int i = 0; i < numStateNew; i++) {
             stateGenerate[i] = "q" + i;
         }
-        
-       // String symbolsNew[] = {"a","b"};
-        
-      // {"q0=>q1,a","q0=>q0,b","q1=>q1,a","q1=>q2,b","q2=>q2,a","q2=>q2,b"};
-        String tranFunctionNew [] = tranFunction;
+
+        // String symbolsNew[] = {"a","b"};
+        // {"q0=>q1,a","q0=>q0,b","q1=>q1,a","q1=>q2,b","q2=>q2,a","q2=>q2,b"};
+        String tranFunctionNew[] = tranFunction;
         String startStateNew = startState;
-        String finalStartNew= finalState;
-        
+        String finalStartNew = finalState;
+
         String testSymbol = "";
-        
-        
+
         String currentState = startStateNew;
 //        char currentSymbol;
 //        
         String myTransitionWithSymbol = "";
-        
-        
-        for(int i =0 ; i<strNew.length(); i++){
-            testSymbol = String.valueOf( strNew.charAt(i));
-            
-            for(int j = 0; j < numStateNew ; j++){
-                
-                myTransitionWithSymbol = startStateNew +"=>"+stateGenerate[j] +","+testSymbol;
+
+        for (int i = 0; i < strNew.length(); i++) {
+            testSymbol = String.valueOf(strNew.charAt(i));
+
+            for (int j = 0; j < numStateNew; j++) {
+
+                myTransitionWithSymbol = startStateNew + "=>" + stateGenerate[j] + "," + testSymbol;
                 for (String tran : tranFunctionNew) {
                     if (myTransitionWithSymbol.equals(tran)) {
                         currentState = stateGenerate[j];
-                          System.out.println(currentState);
+                        System.out.println(currentState);
                         break;
                     }
-                }  
-                if(finalStartNew.contains(currentState)){
+                }
+                if (finalStartNew.contains(currentState)) {
                     IsAccept = true;
                 }
-                
+
             }
-            
-            startStateNew = currentState; 
+
+            startStateNew = currentState;
         }
-        
 
-
-    if(IsAccept == true){
+        if (IsAccept == true) {
             System.out.println("Accept!");
-      }else {
+        } else {
             System.out.println("Reject!");
-      }
-   
-    
-    return IsAccept;
-    
-}
-    
+        }
+
+        return IsAccept;
+
+    }
 
     /**
      * Creates new form UI_automata2
      */
     public UI_automata1() {
+        // constructor run at the first time.
+//        String dfName = "Haha";
+//        String date = "2024-06-07";
+//        Object[] row = {dfName, date};
+//
+//        DefaultTableModel model;
+//      
+//        
+//        model = (DefaultTableModel) RecentTable.getModel();
+//        model.addRow(row);
+
         initComponents();
+        InitialTable2();
         setTitle("UI automata2");
         setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH);
         Main2.setVisible(false);
     }
-    
+
     // class for get user input
-    class Automaton{
+    class Automaton {
+
         private int numberOfState;
         private String setofSymbols;
         private String transitionFunctions;
         private String startState;
         private String setofFinalStates;
-        
-        
+
         private String name;
-        
+
         private String date;
-        
-        
+
         @Override
-    public String toString() {
-        return "Automaton " +
-                "Number of States: " + numberOfState + "\n" +
-                "Set of Symbols: " + setofSymbols + "\n" +
-                "Transition Functions: " + transitionFunctions + "\n" +
-                "Start State: " + startState + "\n" +
-                "Set of Final States: " + setofFinalStates
-                ;
-    }
-        
+        public String toString() {
+            return "Automaton "
+                    + "Number of States: " + numberOfState + "\n"
+                    + "Set of Symbols: " + setofSymbols + "\n"
+                    + "Transition Functions: " + transitionFunctions + "\n"
+                    + "Start State: " + startState + "\n"
+                    + "Set of Final States: " + setofFinalStates;
+        }
 
 //        public Automaton(int numberOfState,String setofSymbols,  String [] transitionFunctions, String startState, String [] setofFinalStates ) {
 //            this.numberOfState = numberOfState;
@@ -131,7 +135,6 @@ public boolean TestString(String str, int numState, String [] tranFunction, Stri
 //            this.setofFinalStates = setofFinalStates;
 //            
 //        }
-
         /**
          * @return the numberOfState
          */
@@ -143,13 +146,12 @@ public boolean TestString(String str, int numState, String [] tranFunction, Stri
          * @param numberOfState the numberOfState to set
          */
         public void setNumberOfState(int numberOfState) {
-           if(numberOfState < 0){
-               JOptionPane.showMessageDialog(rootPane, "Number of State must be greater than 0!", "Automaton Processor", ERROR);
-           }else{
+            if (numberOfState < 0) {
+                JOptionPane.showMessageDialog(rootPane, "Number of State must be greater than 0!", "Automaton Processor", ERROR);
+            } else {
                 this.numberOfState = numberOfState;
-           }
-           
-           
+            }
+
         }
 
         /**
@@ -176,7 +178,7 @@ public boolean TestString(String str, int numState, String [] tranFunction, Stri
         /**
          * @param transitionFunctions the transitionFunctions to set
          */
-        public void setTransitionFunctions(String  transitionFunctions) {
+        public void setTransitionFunctions(String transitionFunctions) {
             this.transitionFunctions = transitionFunctions;
         }
 
@@ -235,29 +237,78 @@ public boolean TestString(String str, int numState, String [] tranFunction, Stri
         public void setName(String name) {
             this.name = name;
         }
-        
-        
-       
-        
-        
-        
-        
-           
-    }
-    
-  
-    
-    
-    
-    
-    
-    
-    
-    
- 
-                                             
 
-     /**
+    }
+
+    // initial table here 
+    public void InitialTable2() {
+//
+//        String name = "Haha";
+//        String date = "2024-06-07";
+
+        ArrayList<Automaton> automatonList = new ArrayList<Automaton>();
+
+        try {
+            Connection con = DBConnection2.getConnection();
+            String name = "";
+            String date = "";
+            int StateNum = 0;
+            String symbols = "";
+            String transitions = "";
+            String startstate = "";
+            String finalstate = "";
+
+            PreparedStatement pst = con.prepareStatement("select * from automatadetails ");
+//            pst.setString(1, name);
+//            pst.setString(2, date);
+            ResultSet rs = pst.executeQuery();
+            while (rs.next()) {
+                name = rs.getString("name");
+                date = rs.getString("TheDate");
+                 StateNum = rs.getInt("StateNum");
+                 symbols = rs.getString("symbols");
+                transitions = rs.getString("transitions");
+                startstate = rs.getString("startstate");
+                 finalstate = rs.getString("finalstate");
+
+                // Create a new Automaton object for each row
+                Automaton auto = new Automaton();
+
+                auto.setName(name); // Assuming 'name' is set elsewhere
+                auto.setDate(date); // Assuming 'date' is set elsewhere (these might not be needed if not stored)
+                auto.setNumberOfState(StateNum);
+                auto.setSetofSymbols(symbols);
+                auto.setTransitionFunctions(transitions);
+                auto.setStartState(startstate);
+                auto.setSetofFinalStates(finalstate);
+
+                automatonList.add(auto); // Add the Automaton object to the list
+            }
+
+            // Handle the case where no data is found (optional)
+            if (automatonList.isEmpty()) {
+                System.out.println("No data found in the database.");
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            // Close resources (assuming these are managed outside this block)
+            // rs.close();
+            // pst.close();
+            // con.close();
+        }
+
+        DefaultTableModel model = (DefaultTableModel) RecentTable.getModel();
+        for (Automaton auto : automatonList) {
+            String nameInserted = auto.getName(); // Assuming a getter method for name in Automaton
+            String dateInserted = auto.getDate(); // Assuming a getter method for date in Automaton
+            Object[] row = {nameInserted, dateInserted};
+            model.addRow(row);
+        }
+    }
+
+    /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
      * regenerated by the Form Editor.
@@ -701,6 +752,11 @@ public boolean TestString(String str, int numState, String [] tranFunction, Stri
                 "Name", "Date"
             }
         ));
+        RecentTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                RecentTableMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(RecentTable);
 
         jPanel3.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(4, 47, 470, 210));
@@ -758,54 +814,66 @@ public boolean TestString(String str, int numState, String [] tranFunction, Stri
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+
     private void headerNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_headerNameActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_headerNameActionPerformed
 
     private void BtnTeststringActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnTeststringActionPerformed
         // TODO add your handling code here
-        
-       int numState = Integer.parseInt(setOfStatesField.getText());
-       String setOfSymbol = setOfSymbolsField.getText();
-       String transitionFunctionNew[] = (transitionFunctionField.getText()).split("[{;}]",0);
-       String startState = startStateField.getText();
-       String setFinalState = setOfFinalStatesFields.getText();
-       
-       String stringToTest = testStringfield.getText();
-       String contentTest = "";
-       
-       boolean IsAcceptMyString = TestString(stringToTest, numState, transitionFunctionNew, startState, setFinalState);
-       
-       if(IsAcceptMyString == true){
-           contentTest = "=> String \""+stringToTest+"\" is accepted!";
-       }else{
-             contentTest = "=> String \""+stringToTest+"\" is rejected!";
-       }
-       
-       
-      
-       
-       OutputArea.setText(contentTest);
-       
-       
-        
-        
-        
-       
-         
+
+        int numState = Integer.parseInt(setOfStatesField.getText());
+        String setOfSymbol = setOfSymbolsField.getText();
+        String transitionFunctionNew[] = (transitionFunctionField.getText()).split("[{;}]", 0);
+        String startState = startStateField.getText();
+        String setFinalState = setOfFinalStatesFields.getText();
+
+        String stringToTest = testStringfield.getText();
+        String contentTest = "";
+
+        boolean IsAcceptMyString = TestString(stringToTest, numState, transitionFunctionNew, startState, setFinalState);
+
+        if (IsAcceptMyString == true) {
+            contentTest = "=> String \"" + stringToTest + "\" is accepted!";
+        } else {
+            contentTest = "=> String \"" + stringToTest + "\" is rejected!";
+        }
+        String name = "Test 2";
+        String StateNum = "3";
+        try {
+            Connection con = DBConnection2.getConnection();
+            PreparedStatement pst = con.prepareStatement("select * from automatadetails where name = ? and StateNum = ?");
+            pst.setString(1, name);
+            pst.setString(2, StateNum);
+            ResultSet rs = pst.executeQuery();
+            if (rs.next()) {
+                JOptionPane.showMessageDialog(this, "Connect Successfully!");
+
+            } else {
+                JOptionPane.showMessageDialog(this, "Incorrect name or stateNum!");
+            }
+
+            // this will return boolean
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        OutputArea.setText(contentTest);
+
+
     }//GEN-LAST:event_BtnTeststringActionPerformed
 
     private void btnMinimizeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMinimizeActionPerformed
         // TODO add your handling code here:
-     // Write code to get user input here!
-      
-        
+        // Write code to get user input here!
+
+
     }//GEN-LAST:event_btnMinimizeActionPerformed
 
     private void BtnRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnRefreshActionPerformed
         // TODO add your handling code here:
-       OutputArea.setText("");
-        
+        OutputArea.setText("");
+
     }//GEN-LAST:event_BtnRefreshActionPerformed
 
     private void BtnsaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnsaveActionPerformed
@@ -814,6 +882,60 @@ public boolean TestString(String str, int numState, String [] tranFunction, Stri
 
     private void BtnloadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnloadActionPerformed
         // TODO add your handling code here:
+
+        // try to load data from SQL 
+        // user name and date value from user select on table row
+//        
+//        String name = "Test 2";
+//        String date = "2024-06-05";
+//        
+//      
+//        try {
+//            Connection con = DBConnection2.getConnection();
+//            
+//           
+//            int StateNum = 0;
+//            String symbols = "";
+//            String transitions = "";
+//            String startstate = "";
+//            String finalstart  = "";
+//            
+//            PreparedStatement pst = con.prepareStatement("select * from automatadetails where name = ? and TheDate = ?");
+//            pst.setString(1, name);
+//            pst.setString(2, date);
+//            ResultSet rs = pst.executeQuery();
+//            if (rs.next()) {
+//                JOptionPane.showMessageDialog(this, "Connect Successfully!");
+//                
+//                
+//                StateNum = rs.getInt("StateNum");
+//                symbols = rs.getString("symbols");
+//                transitions  = rs.getString("transitions");
+//                startstate = rs.getString("startstate");
+//                finalstart = rs.getString("finalstate");
+//                
+//               Automaton auto = new Automaton();
+//               
+//               auto.setName(name);
+//               auto.setDate(date);
+//               auto.setNumberOfState(StateNum);
+//               auto.setSetofSymbols(symbols);
+//               auto.setTransitionFunctions(transitions);
+//               auto.setStartState(startstate);
+//               auto.setSetofFinalStates(finalstart);
+//               
+//                System.out.println( auto.toString());
+//               
+//
+//            } else {
+//                JOptionPane.showMessageDialog(this, "Incorrect name or stateNum!");
+//            }
+//
+//            // this will return boolean
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+
     }//GEN-LAST:event_BtnloadActionPerformed
 
     private void BtnupdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnupdateActionPerformed
@@ -875,8 +997,7 @@ public boolean TestString(String str, int numState, String [] tranFunction, Stri
 
     private void setOfStatesFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_setOfStatesFieldFocusGained
         // TODO add your handling code here:
-           if(setOfStatesField.getText().equals("2"))
-        {
+        if (setOfStatesField.getText().equals("2")) {
             setOfStatesField.setText("");
             setOfStatesField.setForeground(SetColor1());
         }
@@ -884,9 +1005,8 @@ public boolean TestString(String str, int numState, String [] tranFunction, Stri
 
     private void setOfSymbolsFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_setOfSymbolsFieldFocusGained
         // TODO add your handling code here:
-        
-          if(setOfSymbolsField.getText().equals("{a, b}"))
-        {
+
+        if (setOfSymbolsField.getText().equals("{a, b}")) {
             setOfSymbolsField.setText("");
             setOfSymbolsField.setForeground(SetColor1());
         }
@@ -894,18 +1014,16 @@ public boolean TestString(String str, int numState, String [] tranFunction, Stri
 
     private void transitionFunctionFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_transitionFunctionFieldFocusGained
         // TODO add your handling code here:
-        
-         if(transitionFunctionField.getText().equals("{q0=>q1, a};{q0=>q0, b}"))
-        {
-           transitionFunctionField.setText("");
+
+        if (transitionFunctionField.getText().equals("{q0=>q1, a};{q0=>q0, b}")) {
+            transitionFunctionField.setText("");
             transitionFunctionField.setForeground(SetColor1());
         }
     }//GEN-LAST:event_transitionFunctionFieldFocusGained
 
     private void setOfStatesFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_setOfStatesFieldFocusLost
         // TODO add your handling code here:
-        if(setOfStatesField.getText().equals(""))
-        {
+        if (setOfStatesField.getText().equals("")) {
             setOfStatesField.setText("2");
             setOfStatesField.setForeground(SetColor1());
         }
@@ -913,8 +1031,7 @@ public boolean TestString(String str, int numState, String [] tranFunction, Stri
 
     private void setOfSymbolsFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_setOfSymbolsFieldFocusLost
         // TODO add your handling code here:
-        if(setOfSymbolsField.getText().equals(""))
-        {
+        if (setOfSymbolsField.getText().equals("")) {
             setOfSymbolsField.setText("{a, b}");
             setOfSymbolsField.setForeground(SetColor1());
         }
@@ -922,8 +1039,7 @@ public boolean TestString(String str, int numState, String [] tranFunction, Stri
 
     private void transitionFunctionFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_transitionFunctionFieldFocusLost
         // TODO add your handling code here:
-        if(transitionFunctionField.getText().equals(""))
-        {
+        if (transitionFunctionField.getText().equals("")) {
             transitionFunctionField.setText("{q0=>q1, a};{q0=>q0, b}");
             transitionFunctionField.setForeground(SetColor1());
         }
@@ -931,158 +1047,157 @@ public boolean TestString(String str, int numState, String [] tranFunction, Stri
 
     private void startStateFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_startStateFieldFocusGained
         // TODO add your handling code here:
-         if(startStateField.getText().equals("q0"))
-        {
-           startStateField.setText("");
+        if (startStateField.getText().equals("q0")) {
+            startStateField.setText("");
             startStateField.setForeground(SetColor1());
         }
-        
-        
+
+
     }//GEN-LAST:event_startStateFieldFocusGained
 
     private void startStateFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_startStateFieldFocusLost
         // TODO add your handling code here:
-         if(startStateField.getText().equals(""))
-        {
-           startStateField.setText("q0");
+        if (startStateField.getText().equals("")) {
+            startStateField.setText("q0");
             startStateField.setForeground(SetColor1());
         }
     }//GEN-LAST:event_startStateFieldFocusLost
 
     private void setOfFinalStatesFieldsFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_setOfFinalStatesFieldsFocusGained
         // TODO add your handling code here:
-         if(setOfFinalStatesFields.getText().equals("{q1}"))
-        {
-           setOfFinalStatesFields.setText("");
+        if (setOfFinalStatesFields.getText().equals("{q1}")) {
+            setOfFinalStatesFields.setText("");
             setOfFinalStatesFields.setForeground(SetColor1());
         }
     }//GEN-LAST:event_setOfFinalStatesFieldsFocusGained
 
     private void setOfFinalStatesFieldsFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_setOfFinalStatesFieldsFocusLost
         // TODO add your handling code here:
-         if(setOfFinalStatesFields.getText().equals(""))
-        {
-           setOfFinalStatesFields.setText("{q1}");
-           setOfFinalStatesFields.setForeground(SetColor1());
+        if (setOfFinalStatesFields.getText().equals("")) {
+            setOfFinalStatesFields.setText("{q1}");
+            setOfFinalStatesFields.setForeground(SetColor1());
         }
     }//GEN-LAST:event_setOfFinalStatesFieldsFocusLost
 
     private void btnCheckFAActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCheckFAActionPerformed
         // TODO add your handling code here:
-        
-        
-         int numState = Integer.parseInt(setOfStatesField.getText());
-       String setOfSymbol = setOfSymbolsField.getText();
-       String transitionFunction = transitionFunctionField.getText();
-       String startState = startStateField.getText();
-       String setFinalState = setOfFinalStatesFields.getText();
-       
-       String dfName = headerName.getText();
-       String date =  new SimpleDateFormat("yyyy-MM-dd").format(new Date());
-       
-       
-       
-       /// check FA here 
-       
-      //1. no epsilon transition
-      //2. number of transitions equal to number of states x number of symbols
-      
-      // how to count number of symbol
-      // how to count number of transition
-      String mySymbol[] = setOfSymbol.split("[{,} ]", 0);
-      String myTranf[] = transitionFunction.split(";",0);
-      
-      for (String s :myTranf ){
-          System.out.println(s);
-      }
-      
-      int numOfTranf = myTranf.length;
-      
-        System.out.println("num of transition functions="+numOfTranf);
-      
-      
-      
-      // str = "ab"
-      
-      
-      
-      System.out.println(setOfSymbol);
-      
-      String joinedStr= String.join("",mySymbol);
-      
-      int numOfSymbol = joinedStr.length();
-      
-      
-      
-      
-  
-       
-       
-      
-      boolean IsEqual;
-      String messageDFA =" \n => It is a NFA";
 
-      IsEqual = (numOfSymbol*numState) == numOfTranf;
-      
+        int numState = Integer.parseInt(setOfStatesField.getText());
+        String setOfSymbol = setOfSymbolsField.getText();
+        String transitionFunction = transitionFunctionField.getText();
+        String startState = startStateField.getText();
+        String setFinalState = setOfFinalStatesFields.getText();
+
+        String dfName = headerName.getText();
+        String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+
+        /// check FA here 
+        //1. no epsilon transition
+        //2. number of transitions equal to number of states x number of symbols
+        // how to count number of symbol
+        // how to count number of transition
+        String mySymbol[] = setOfSymbol.split("[{,} ]", 0);
+        String myTranf[] = transitionFunction.split(";", 0);
+
+        for (String s : myTranf) {
+            System.out.println(s);
+        }
+
+        int numOfTranf = myTranf.length;
+
+        System.out.println("num of transition functions=" + numOfTranf);
+
+        // str = "ab"
+        System.out.println(setOfSymbol);
+
+        String joinedStr = String.join("", mySymbol);
+
+        int numOfSymbol = joinedStr.length();
+
+        boolean IsEqual;
+        String messageDFA = " \n => It is a NFA";
+
+        IsEqual = (numOfSymbol * numState) == numOfTranf;
+
         System.out.println(IsEqual);
-      if((!(transitionFunction.contains("ε"))) && IsEqual){
-        messageDFA = " \n => It is a DFA";
-          
-      }
-       
-      
+        if ((!(transitionFunction.contains("ε"))) && IsEqual) {
+            messageDFA = " \n => It is a DFA";
+
+        }
+
         Automaton auto = new Automaton();
-       
-    Object[] row = {dfName, date};
 
-    DefaultTableModel model = (DefaultTableModel) RecentTable.getModel();
+        Object[] row = {dfName, date};
 
-    model.addRow(row);
+        DefaultTableModel model = (DefaultTableModel) RecentTable.getModel();
 
-                
-        
-        
+        model.addRow(row);
+
         auto.setNumberOfState(numState);
         auto.setSetofSymbols(setOfSymbol);
         auto.setTransitionFunctions(transitionFunction);
         auto.setStartState(startState);
         auto.setSetofFinalStates(setFinalState);
-        
-        
-        
-        
-        System.out.println( auto.toString());
-        
-        
-        
+
+        System.out.println(auto.toString());
+
         String myContent = auto.toString();
-        
-        String myRealMeassage = myContent +"\n"+ messageDFA;
-         // Create and set up the text area
+
+        String myRealMeassage = myContent + "\n" + messageDFA;
+        // Create and set up the text area
         OutputArea.setText(myRealMeassage);
         OutputArea.setEditable(false);  // Make the text area read-only
         OutputArea.setLineWrap(true);   // Enable line wrapping
         OutputArea.setWrapStyleWord(true); // Wrap at word boundaries
-        
-        
-//        setOfStatesField.setText("");
-//        setOfSymbolsField.setText("");
-//       transitionFunctionField.setText("");
-//       startStateField.setText("");
-//       setOfFinalStatesFields.setText("");
-//      
-        
-       
 
-        
-        
+        // get date of FA and insert it to MYSQL 
+        Connection myCon = DBConnection2.getConnection();
+
+        String name = dfName;
+        String TheDate = date;
+        int StateNum = numState;
+        String symbols = setOfSymbol;
+        String transitions = transitionFunction;
+        String startstate = startState;
+        String finalstart = setFinalState;
+
+        try {
+            String sqlStatement = "INSERT into automatadetails(name, TheDate, StateNum, symbols, transitions, startstate, finalstate) values (?, ?, ?, ?, ?, ?, ?)";
+
+            PreparedStatement pst = myCon.prepareStatement(sqlStatement);
+
+            pst.setString(1, name);
+            pst.setString(2, TheDate);
+            pst.setInt(3, StateNum);
+            pst.setString(4, symbols);
+            pst.setString(5, transitions);
+            pst.setString(6, startstate);
+            pst.setString(7, finalstart);
+
+            int updateRowCount = pst.executeUpdate(); // check if insert success
+
+            if (updateRowCount > 0) {
+                JOptionPane.showConfirmDialog(this, "Recorded Inserted Successfully");
+
+            } else {
+                JOptionPane.showConfirmDialog(this, "Recorded Inserted Unsuccessfully");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+
+        }
+
+        // clear user input
+        headerName.setText("");
+
+        setOfStatesField.setText("");
+        setOfSymbolsField.setText("");
+        transitionFunctionField.setText("");
+        startStateField.setText("");
+        setOfFinalStatesFields.setText("");
+
         // use function split string before insert into object of class
-        
-        
-        
-        
-            
-               
+
     }//GEN-LAST:event_btnCheckFAActionPerformed
 
     private void btnConstructActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConstructActionPerformed
@@ -1091,18 +1206,104 @@ public boolean TestString(String str, int numState, String [] tranFunction, Stri
 
     private void testStringfieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_testStringfieldFocusGained
         // TODO add your handling code here:
+
+        if (testStringfield.getText().equals("aabb")) {
+            testStringfield.setText("");
+            testStringfield.setForeground(SetColor1());
+        }
+
     }//GEN-LAST:event_testStringfieldFocusGained
 
     private void testStringfieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_testStringfieldFocusLost
         // TODO add your handling code here:
+
+        if (testStringfield.getText().equals("")) {
+            testStringfield.setText("aabb");
+            testStringfield.setForeground(SetColor1());
+        }
+
     }//GEN-LAST:event_testStringfieldFocusLost
 
     private void testStringfieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_testStringfieldActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_testStringfieldActionPerformed
 
-    
-    
+    private void RecentTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_RecentTableMouseClicked
+        // TODO add your handling code here:
+        String nameSelected = "";
+        String dateSelected = "";
+        DefaultTableModel model = (DefaultTableModel) RecentTable.getModel();
+
+        int selectedRowIndex = RecentTable.getSelectedRow();
+
+        if (selectedRowIndex >= 0) {
+            // Access row data (replace with your model's logic)
+            nameSelected = (String) model.getValueAt(selectedRowIndex, 0); // Assuming name is in column 0
+            dateSelected = (String) model.getValueAt(selectedRowIndex, 1); // Assuming date is in column 1
+
+            // Optional: Database interaction based on data from the selected row
+            // ...
+            System.out.println("Selected row: Name - " + nameSelected + ", Date - " + dateSelected);
+        } else {
+            System.out.println("No row selected");
+        }
+
+        String name = nameSelected;
+        String date = dateSelected;
+
+        try {
+            Connection con = DBConnection2.getConnection();
+
+            int StateNum = 0;
+            String symbols = "";
+            String transitions = "";
+            String startstate = "";
+            String finalstart = "";
+
+            PreparedStatement pst = con.prepareStatement("select * from automatadetails where name = ? and TheDate = ?");
+            pst.setString(1, name);
+            pst.setString(2, date);
+            ResultSet rs = pst.executeQuery();
+            if (rs.next()) {
+                JOptionPane.showMessageDialog(this, "Connect Successfully!");
+
+                StateNum = rs.getInt("StateNum");
+                symbols = rs.getString("symbols");
+                transitions = rs.getString("transitions");
+                startstate = rs.getString("startstate");
+                finalstart = rs.getString("finalstate");
+
+                Automaton auto = new Automaton();
+
+                auto.setName(name);
+                auto.setDate(date);
+                auto.setNumberOfState(StateNum);
+                auto.setSetofSymbols(symbols);
+                auto.setTransitionFunctions(transitions);
+                auto.setStartState(startstate);
+                auto.setSetofFinalStates(finalstart);
+
+                System.out.println(auto.toString());
+
+            } else {
+                JOptionPane.showMessageDialog(this, "Incorrect name or stateNum!");
+            }
+
+            // Set data into text fields
+            headerName.setText(name);
+            setOfStatesField.setText(String.valueOf(StateNum));
+            setOfSymbolsField.setText(symbols);
+            transitionFunctionField.setText(transitions);
+            startStateField.setText(startstate);
+            setOfFinalStatesFields.setText(finalstart);
+
+            // this will return boolean
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }//GEN-LAST:event_RecentTableMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -1130,10 +1331,8 @@ public boolean TestString(String str, int numState, String [] tranFunction, Stri
         }
         //</editor-fold>
         //</editor-fold>
-        
-        
-        
-         try {
+
+        try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
@@ -1146,7 +1345,7 @@ public boolean TestString(String str, int numState, String [] tranFunction, Stri
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
-          public void run() {
+            public void run() {
                 GraphicsDevice[] devices = GraphicsEnvironment.getLocalGraphicsEnvironment().getScreenDevices();
                 for (GraphicsDevice device : devices) {
                     new UI_automata1().setVisible(true);
