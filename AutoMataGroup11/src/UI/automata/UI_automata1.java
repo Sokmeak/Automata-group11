@@ -21,6 +21,9 @@ import javax.swing.table.DefaultTableModel;
  */
 public class UI_automata1 extends javax.swing.JFrame {
 
+    public static String nameSelect1 = "";
+    public static String dateSelect1 = "";
+
     public Color SetColor1() {
         return new Color(104, 105, 106);
     }
@@ -98,7 +101,7 @@ public class UI_automata1 extends javax.swing.JFrame {
 //        model.addRow(row);
 
         initComponents();
-        InitialTable2();
+        UpdateTable();
         setTitle("UI automata2");
         setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH);
         Main2.setVisible(false);
@@ -241,7 +244,7 @@ public class UI_automata1 extends javax.swing.JFrame {
     }
 
     // initial table here 
-    public void InitialTable2() {
+    public void UpdateTable() {
 //
 //        String name = "Haha";
 //        String date = "2024-06-07";
@@ -265,11 +268,11 @@ public class UI_automata1 extends javax.swing.JFrame {
             while (rs.next()) {
                 name = rs.getString("name");
                 date = rs.getString("TheDate");
-                 StateNum = rs.getInt("StateNum");
-                 symbols = rs.getString("symbols");
+                StateNum = rs.getInt("StateNum");
+                symbols = rs.getString("symbols");
                 transitions = rs.getString("transitions");
                 startstate = rs.getString("startstate");
-                 finalstate = rs.getString("finalstate");
+                finalstate = rs.getString("finalstate");
 
                 // Create a new Automaton object for each row
                 Automaton auto = new Automaton();
@@ -300,11 +303,106 @@ public class UI_automata1 extends javax.swing.JFrame {
         }
 
         DefaultTableModel model = (DefaultTableModel) RecentTable.getModel();
+        model.setRowCount(0); /// clear table first
         for (Automaton auto : automatonList) {
             String nameInserted = auto.getName(); // Assuming a getter method for name in Automaton
             String dateInserted = auto.getDate(); // Assuming a getter method for date in Automaton
             Object[] row = {nameInserted, dateInserted};
             model.addRow(row);
+        }
+    }
+
+    public boolean insertValid(String name, String TheDate) {
+
+        boolean IsValid = false;
+
+        Connection myCon = DBConnection2.getConnection();
+        try {
+            // Check for duplicate entry
+            String checkSql = "SELECT COUNT(*) FROM automatadetails WHERE name = ? AND TheDate = ?";
+            PreparedStatement checkPst = myCon.prepareStatement(checkSql);
+            checkPst.setString(1, name);
+            checkPst.setString(2, TheDate);
+
+            ResultSet rs = checkPst.executeQuery();
+            rs.next();
+            int count = rs.getInt(1);
+            if (count > 0) {
+
+                IsValid = IsValid;
+            } else {
+                IsValid = !IsValid;
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return IsValid;
+
+    }
+
+    public void insertAutomaton(String name, String TheDate, int StateNum, String symbols, String transitions, String startstate, String finalstart) {
+        Connection myCon = DBConnection2.getConnection();
+        try {
+            // Check for duplicate entry
+            boolean isInsertValid = insertValid(name, TheDate);
+            // Proceed with insertion if no duplicate is found
+            if (isInsertValid) {
+                String sqlStatement = "INSERT INTO automatadetails(name, TheDate, StateNum, symbols, transitions, startstate, finalstate) VALUES (?, ?, ?, ?, ?, ?, ?)";
+                PreparedStatement pst = myCon.prepareStatement(sqlStatement);
+
+                pst.setString(1, name);
+                pst.setString(2, TheDate);
+                pst.setInt(3, StateNum);
+                pst.setString(4, symbols);
+                pst.setString(5, transitions);
+                pst.setString(6, startstate);
+                pst.setString(7, finalstart);
+
+                int updateRowCount = pst.executeUpdate(); // Check if insert is successful
+                if (updateRowCount > 0) {
+                    JOptionPane.showMessageDialog(null, "Record Inserted Successfully");
+                } else {
+                    JOptionPane.showMessageDialog(null, "Record Inserted Unsuccessfully");
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "Record with the same name and date already exists.");
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            // Close resources if needed
+            // rs.close();
+            // checkPst.close();
+            // pst.close();
+            // myCon.close();
+        }
+        UpdateTable();
+    }
+
+    public void deleteFA(String name, String date) {
+        String nameSelected = name;
+        String dateSelected = date;
+        Connection myCon = DBConnection2.getConnection();
+
+        try {
+            String sqlStatement = "DELETE FROM automatadetails WHERE name = ? and TheDate = ?";
+
+            PreparedStatement pst = myCon.prepareStatement(sqlStatement);
+
+            pst.setString(1, nameSelected);
+            pst.setString(2, dateSelected);
+
+            int updateRowCount = pst.executeUpdate(); // check if delete is successful
+
+            if (updateRowCount > 0) {
+                JOptionPane.showConfirmDialog(this, "Record Deleted Successfully");
+            } else {
+                JOptionPane.showConfirmDialog(this, "Record Deletion Unsuccessful");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -349,7 +447,6 @@ public class UI_automata1 extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         RecentTable = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
-        Btnsave = new javax.swing.JButton();
         Btnload = new javax.swing.JButton();
         Btnupdate = new javax.swing.JButton();
         Btndelete = new javax.swing.JButton();
@@ -387,7 +484,7 @@ public class UI_automata1 extends javax.swing.JFrame {
         jLabel7.setText("Input start state");
 
         setOfStatesField.setFont(new java.awt.Font("Times New Roman", 0, 21)); // NOI18N
-        setOfStatesField.setForeground(new java.awt.Color(153, 153, 153));
+        setOfStatesField.setForeground(new java.awt.Color(102, 102, 102));
         setOfStatesField.setText("2");
         setOfStatesField.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
@@ -404,7 +501,7 @@ public class UI_automata1 extends javax.swing.JFrame {
         });
 
         setOfSymbolsField.setFont(new java.awt.Font("Times New Roman", 0, 21)); // NOI18N
-        setOfSymbolsField.setForeground(new java.awt.Color(153, 153, 153));
+        setOfSymbolsField.setForeground(new java.awt.Color(102, 102, 102));
         setOfSymbolsField.setText("{a, b}");
         setOfSymbolsField.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
@@ -421,7 +518,7 @@ public class UI_automata1 extends javax.swing.JFrame {
         });
 
         transitionFunctionField.setFont(new java.awt.Font("Times New Roman", 0, 21)); // NOI18N
-        transitionFunctionField.setForeground(new java.awt.Color(153, 153, 153));
+        transitionFunctionField.setForeground(new java.awt.Color(102, 102, 102));
         transitionFunctionField.setText("{q0=>q1, a};{q0=>q0, b}");
         transitionFunctionField.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
@@ -438,7 +535,7 @@ public class UI_automata1 extends javax.swing.JFrame {
         });
 
         startStateField.setFont(new java.awt.Font("Times New Roman", 0, 21)); // NOI18N
-        startStateField.setForeground(new java.awt.Color(153, 153, 153));
+        startStateField.setForeground(new java.awt.Color(102, 102, 102));
         startStateField.setText("q0");
         startStateField.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
@@ -455,7 +552,7 @@ public class UI_automata1 extends javax.swing.JFrame {
         });
 
         setOfFinalStatesFields.setFont(new java.awt.Font("Times New Roman", 0, 21)); // NOI18N
-        setOfFinalStatesFields.setForeground(new java.awt.Color(153, 153, 153));
+        setOfFinalStatesFields.setForeground(new java.awt.Color(102, 102, 102));
         setOfFinalStatesFields.setText("{q1}");
         setOfFinalStatesFields.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
@@ -765,17 +862,6 @@ public class UI_automata1 extends javax.swing.JFrame {
         jLabel1.setText("Recent FAs");
         jPanel3.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(153, 6, 136, -1));
 
-        Btnsave.setBackground(new java.awt.Color(0, 0, 255));
-        Btnsave.setFont(new java.awt.Font("Times New Roman", 1, 17)); // NOI18N
-        Btnsave.setForeground(new java.awt.Color(255, 255, 255));
-        Btnsave.setText("Save");
-        Btnsave.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BtnsaveActionPerformed(evt);
-            }
-        });
-        jPanel3.add(Btnsave, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 290, 90, 40));
-
         Btnload.setBackground(new java.awt.Color(0, 0, 255));
         Btnload.setFont(new java.awt.Font("Times New Roman", 1, 17)); // NOI18N
         Btnload.setForeground(new java.awt.Color(255, 255, 255));
@@ -785,7 +871,7 @@ public class UI_automata1 extends javax.swing.JFrame {
                 BtnloadActionPerformed(evt);
             }
         });
-        jPanel3.add(Btnload, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 290, 90, 40));
+        jPanel3.add(Btnload, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 290, 140, 50));
 
         Btnupdate.setBackground(new java.awt.Color(0, 0, 255));
         Btnupdate.setFont(new java.awt.Font("Times New Roman", 1, 17)); // NOI18N
@@ -796,7 +882,7 @@ public class UI_automata1 extends javax.swing.JFrame {
                 BtnupdateActionPerformed(evt);
             }
         });
-        jPanel3.add(Btnupdate, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 290, 90, 40));
+        jPanel3.add(Btnupdate, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 290, 140, 50));
 
         Btndelete.setBackground(new java.awt.Color(0, 0, 255));
         Btndelete.setFont(new java.awt.Font("Times New Roman", 1, 17)); // NOI18N
@@ -807,7 +893,7 @@ public class UI_automata1 extends javax.swing.JFrame {
                 BtndeleteActionPerformed(evt);
             }
         });
-        jPanel3.add(Btndelete, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 290, 90, 40));
+        jPanel3.add(Btndelete, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 290, 130, 50));
 
         getContentPane().add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(800, 300, 500, 390));
 
@@ -876,13 +962,80 @@ public class UI_automata1 extends javax.swing.JFrame {
 
     }//GEN-LAST:event_BtnRefreshActionPerformed
 
-    private void BtnsaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnsaveActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_BtnsaveActionPerformed
-
     private void BtnloadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnloadActionPerformed
         // TODO add your handling code here:
 
+        String nameSelected = "";
+        String dateSelected = "";
+        DefaultTableModel model = (DefaultTableModel) RecentTable.getModel();
+
+        int selectedRowIndex = RecentTable.getSelectedRow();
+
+        if (selectedRowIndex >= 0) {
+            // Access row data (replace with your model's logic)
+            nameSelected = (String) model.getValueAt(selectedRowIndex, 0); // Assuming name is in column 0
+            dateSelected = (String) model.getValueAt(selectedRowIndex, 1); // Assuming date is in column 1
+
+            // Optional: Database interaction based on data from the selected row
+            // ...
+            System.out.println("Selected row: Name - " + nameSelected + ", Date - " + dateSelected);
+        } else {
+            System.out.println("No row selected");
+        }
+
+        String name = nameSelected;
+        String date = dateSelected;
+
+        try {
+            Connection con = DBConnection2.getConnection();
+
+            int StateNum = 0;
+            String symbols = "";
+            String transitions = "";
+            String startstate = "";
+            String finalstart = "";
+
+            PreparedStatement pst = con.prepareStatement("select * from automatadetails where name = ? and TheDate = ?");
+            pst.setString(1, name);
+            pst.setString(2, date);
+            ResultSet rs = pst.executeQuery();
+            if (rs.next()) {
+                // JOptionPane.showMessageDialog(this, "Connect Successfully!");
+
+                StateNum = rs.getInt("StateNum");
+                symbols = rs.getString("symbols");
+                transitions = rs.getString("transitions");
+                startstate = rs.getString("startstate");
+                finalstart = rs.getString("finalstate");
+
+                Automaton auto = new Automaton();
+
+                auto.setName(name);
+                auto.setDate(date);
+                auto.setNumberOfState(StateNum);
+                auto.setSetofSymbols(symbols);
+                auto.setTransitionFunctions(transitions);
+                auto.setStartState(startstate);
+                auto.setSetofFinalStates(finalstart);
+
+                System.out.println(auto.toString());
+
+            } else {
+                // JOptionPane.showMessageDialog(this, "Incorrect name or stateNum!");
+            }
+
+            // Set data into text fields
+            headerName.setText(name);
+            setOfStatesField.setText(String.valueOf(StateNum));
+            setOfSymbolsField.setText(symbols);
+            transitionFunctionField.setText(transitions);
+            startStateField.setText(startstate);
+            setOfFinalStatesFields.setText(finalstart);
+
+            // this will return boolean
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         // try to load data from SQL 
         // user name and date value from user select on table row
 //        
@@ -940,10 +1093,104 @@ public class UI_automata1 extends javax.swing.JFrame {
 
     private void BtnupdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnupdateActionPerformed
         // TODO add your handling code here:
+
+        String oldName = "";
+        String oldDate = "";
+
+        DefaultTableModel model = (DefaultTableModel) RecentTable.getModel();
+
+        int selectedRowIndex = RecentTable.getSelectedRow();
+
+        if (selectedRowIndex >= 0) {
+            // Access row data (replace with your model's logic)
+            oldName = (String) model.getValueAt(selectedRowIndex, 0); // Assuming name is in column 0
+            oldDate = (String) model.getValueAt(selectedRowIndex, 1); // Assuming date is in column 1
+
+            // Optional: Database interaction based on data from the selected row
+            // ...
+        } else {
+            System.out.println("Data not found!");
+        }
+
+        int numState = Integer.parseInt(setOfStatesField.getText());
+        String setOfSymbol = setOfSymbolsField.getText();
+        String transitionFunction = transitionFunctionField.getText();
+        String startState = startStateField.getText();
+        String setFinalState = setOfFinalStatesFields.getText();
+
+        String dfName = headerName.getText();
+        String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+
+        Automaton auto = new Automaton();
+        auto.setNumberOfState(numState);
+        auto.setSetofSymbols(setOfSymbol);
+        auto.setTransitionFunctions(transitionFunction);
+        auto.setStartState(startState);
+        auto.setSetofFinalStates(setFinalState);
+        auto.setName(dfName);
+        auto.setDate(date);
+
+        try {
+            Connection con = DBConnection2.getConnection();
+            String sqlStatement = "UPDATE automatadetails SET name = ?, TheDate = ?, StateNum = ?, symbols = ?, transitions = ?, startstate = ?, finalstate = ? WHERE name = ? and TheDate = ?";
+
+            PreparedStatement pst = con.prepareStatement(sqlStatement);
+
+            pst.setString(1, auto.getName()); // New name
+            pst.setString(2, auto.getDate());
+            pst.setInt(3, auto.getNumberOfState());
+            pst.setString(4, auto.getSetofSymbols());
+            pst.setString(5, auto.getTransitionFunctions());
+            pst.setString(6, auto.getStartState());
+            pst.setString(7, auto.getSetofFinalStates());
+            pst.setString(8, oldName); // Old name to identify the record to update
+            pst.setString(9, oldDate);
+
+            int updateRowCount = pst.executeUpdate(); // check if update is successful
+
+            if (updateRowCount > 0) {
+                JOptionPane.showMessageDialog(null, "Record Updated Successfully");
+            } else {
+                JOptionPane.showMessageDialog(null, "Record Update Unsuccessful");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            // Close resources if needed (assuming these are managed outside this block)
+            // pst.close();
+            // con.close();
+        }
+
+        UpdateTable();
+
     }//GEN-LAST:event_BtnupdateActionPerformed
 
     private void BtndeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtndeleteActionPerformed
         // TODO add your handling code here:
+
+        String nameSelected = "";
+        String dateSelected = "";
+
+        DefaultTableModel model = (DefaultTableModel) RecentTable.getModel();
+
+        int selectedRowIndex = RecentTable.getSelectedRow();
+
+        if (selectedRowIndex >= 0) {
+            // Access row data (replace with your model's logic)
+            nameSelected = (String) model.getValueAt(selectedRowIndex, 0); // Assuming name is in column 0
+            dateSelected = (String) model.getValueAt(selectedRowIndex, 1); // Assuming date is in column 1
+
+            // Optional: Database interaction based on data from the selected row
+            // ...
+        } else {
+            System.out.println("Data not found!");
+        }
+        
+        deleteFA(nameSelected, dateSelected);
+
+        UpdateTable();
+
+
     }//GEN-LAST:event_BtndeleteActionPerformed
 
     private void setOfSymbolsFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_setOfSymbolsFieldActionPerformed
@@ -1127,11 +1374,11 @@ public class UI_automata1 extends javax.swing.JFrame {
 
         Automaton auto = new Automaton();
 
-        Object[] row = {dfName, date};
-
-        DefaultTableModel model = (DefaultTableModel) RecentTable.getModel();
-
-        model.addRow(row);
+//        Object[] row = {dfName, date};
+//
+//        DefaultTableModel model = (DefaultTableModel) RecentTable.getModel();
+//
+//        model.addRow(row);
 
         auto.setNumberOfState(numState);
         auto.setSetofSymbols(setOfSymbol);
@@ -1150,9 +1397,6 @@ public class UI_automata1 extends javax.swing.JFrame {
         OutputArea.setLineWrap(true);   // Enable line wrapping
         OutputArea.setWrapStyleWord(true); // Wrap at word boundaries
 
-        // get date of FA and insert it to MYSQL 
-        Connection myCon = DBConnection2.getConnection();
-
         String name = dfName;
         String TheDate = date;
         int StateNum = numState;
@@ -1161,31 +1405,8 @@ public class UI_automata1 extends javax.swing.JFrame {
         String startstate = startState;
         String finalstart = setFinalState;
 
-        try {
-            String sqlStatement = "INSERT into automatadetails(name, TheDate, StateNum, symbols, transitions, startstate, finalstate) values (?, ?, ?, ?, ?, ?, ?)";
-
-            PreparedStatement pst = myCon.prepareStatement(sqlStatement);
-
-            pst.setString(1, name);
-            pst.setString(2, TheDate);
-            pst.setInt(3, StateNum);
-            pst.setString(4, symbols);
-            pst.setString(5, transitions);
-            pst.setString(6, startstate);
-            pst.setString(7, finalstart);
-
-            int updateRowCount = pst.executeUpdate(); // check if insert success
-
-            if (updateRowCount > 0) {
-                JOptionPane.showConfirmDialog(this, "Recorded Inserted Successfully");
-
-            } else {
-                JOptionPane.showConfirmDialog(this, "Recorded Inserted Unsuccessfully");
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-
-        }
+        // use function insert FA
+        insertAutomaton(name, TheDate, StateNum, symbols, transitions, startstate, finalstart);
 
         // clear user input
         headerName.setText("");
@@ -1230,77 +1451,78 @@ public class UI_automata1 extends javax.swing.JFrame {
 
     private void RecentTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_RecentTableMouseClicked
         // TODO add your handling code here:
-        String nameSelected = "";
-        String dateSelected = "";
-        DefaultTableModel model = (DefaultTableModel) RecentTable.getModel();
 
-        int selectedRowIndex = RecentTable.getSelectedRow();
-
-        if (selectedRowIndex >= 0) {
-            // Access row data (replace with your model's logic)
-            nameSelected = (String) model.getValueAt(selectedRowIndex, 0); // Assuming name is in column 0
-            dateSelected = (String) model.getValueAt(selectedRowIndex, 1); // Assuming date is in column 1
-
-            // Optional: Database interaction based on data from the selected row
-            // ...
-            System.out.println("Selected row: Name - " + nameSelected + ", Date - " + dateSelected);
-        } else {
-            System.out.println("No row selected");
-        }
-
-        String name = nameSelected;
-        String date = dateSelected;
-
-        try {
-            Connection con = DBConnection2.getConnection();
-
-            int StateNum = 0;
-            String symbols = "";
-            String transitions = "";
-            String startstate = "";
-            String finalstart = "";
-
-            PreparedStatement pst = con.prepareStatement("select * from automatadetails where name = ? and TheDate = ?");
-            pst.setString(1, name);
-            pst.setString(2, date);
-            ResultSet rs = pst.executeQuery();
-            if (rs.next()) {
-                JOptionPane.showMessageDialog(this, "Connect Successfully!");
-
-                StateNum = rs.getInt("StateNum");
-                symbols = rs.getString("symbols");
-                transitions = rs.getString("transitions");
-                startstate = rs.getString("startstate");
-                finalstart = rs.getString("finalstate");
-
-                Automaton auto = new Automaton();
-
-                auto.setName(name);
-                auto.setDate(date);
-                auto.setNumberOfState(StateNum);
-                auto.setSetofSymbols(symbols);
-                auto.setTransitionFunctions(transitions);
-                auto.setStartState(startstate);
-                auto.setSetofFinalStates(finalstart);
-
-                System.out.println(auto.toString());
-
-            } else {
-                JOptionPane.showMessageDialog(this, "Incorrect name or stateNum!");
-            }
-
-            // Set data into text fields
-            headerName.setText(name);
-            setOfStatesField.setText(String.valueOf(StateNum));
-            setOfSymbolsField.setText(symbols);
-            transitionFunctionField.setText(transitions);
-            startStateField.setText(startstate);
-            setOfFinalStatesFields.setText(finalstart);
-
-            // this will return boolean
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+//        String nameSelected = "";
+//        String dateSelected = "";
+//        DefaultTableModel model = (DefaultTableModel) RecentTable.getModel();
+//
+//        int selectedRowIndex = RecentTable.getSelectedRow();
+//
+//        if (selectedRowIndex >= 0) {
+//            // Access row data (replace with your model's logic)
+//            nameSelected = (String) model.getValueAt(selectedRowIndex, 0); // Assuming name is in column 0
+//            dateSelected = (String) model.getValueAt(selectedRowIndex, 1); // Assuming date is in column 1
+//
+//            // Optional: Database interaction based on data from the selected row
+//            // ...
+//            System.out.println("Selected row: Name - " + nameSelected + ", Date - " + dateSelected);
+//        } else {
+//            System.out.println("No row selected");
+//        }
+//
+//        String name = nameSelected;
+//        String date = dateSelected;
+//
+//        try {
+//            Connection con = DBConnection2.getConnection();
+//
+//            int StateNum = 0;
+//            String symbols = "";
+//            String transitions = "";
+//            String startstate = "";
+//            String finalstart = "";
+//
+//            PreparedStatement pst = con.prepareStatement("select * from automatadetails where name = ? and TheDate = ?");
+//            pst.setString(1, name);
+//            pst.setString(2, date);
+//            ResultSet rs = pst.executeQuery();
+//            if (rs.next()) {
+//                // JOptionPane.showMessageDialog(this, "Connect Successfully!");
+//
+//                StateNum = rs.getInt("StateNum");
+//                symbols = rs.getString("symbols");
+//                transitions = rs.getString("transitions");
+//                startstate = rs.getString("startstate");
+//                finalstart = rs.getString("finalstate");
+//
+//                Automaton auto = new Automaton();
+//
+//                auto.setName(name);
+//                auto.setDate(date);
+//                auto.setNumberOfState(StateNum);
+//                auto.setSetofSymbols(symbols);
+//                auto.setTransitionFunctions(transitions);
+//                auto.setStartState(startstate);
+//                auto.setSetofFinalStates(finalstart);
+//
+//                System.out.println(auto.toString());
+//
+//            } else {
+//                // JOptionPane.showMessageDialog(this, "Incorrect name or stateNum!");
+//            }
+//
+//            // Set data into text fields
+//            headerName.setText(name);
+//            setOfStatesField.setText(String.valueOf(StateNum));
+//            setOfSymbolsField.setText(symbols);
+//            transitionFunctionField.setText(transitions);
+//            startStateField.setText(startstate);
+//            setOfFinalStatesFields.setText(finalstart);
+//
+//            // this will return boolean
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
 
     }//GEN-LAST:event_RecentTableMouseClicked
 
@@ -1359,7 +1581,6 @@ public class UI_automata1 extends javax.swing.JFrame {
     private javax.swing.JButton BtnTeststring;
     private javax.swing.JButton Btndelete;
     private javax.swing.JButton Btnload;
-    private javax.swing.JButton Btnsave;
     private javax.swing.JButton Btnupdate;
     private javax.swing.JPanel Main1;
     private javax.swing.JPanel Main2;
