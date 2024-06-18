@@ -11,7 +11,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -27,105 +30,156 @@ public class UI_automata1 extends javax.swing.JFrame {
     public Color SetColor1() {
         return new Color(104, 105, 106);
     }
-    
-    public String []renderStates (int numState){
-         String[] stateGenerate = new String[numState];
+
+    public String[] renderStates(int numState) {
+        String[] stateGenerate = new String[numState];
         for (int i = 0; i < numState; i++) {
             stateGenerate[i] = "q" + i;
         }
-        
-        
+
         return stateGenerate;
     }
-    
-    public String []exTractSymbols(String sym){
-        String [] syms = {};
-        
-       if(sym.startsWith("{") && sym.endsWith("}")){
-           
-           sym  = sym.substring(1,sym.length()-1);
-       }
-       
-       syms = sym.split(",");
-        
-        
+
+    public String[] exTractSymbols(String sym) {
+        String[] syms = {};
+
+        if (sym.startsWith("{") && sym.endsWith("}")) {
+
+            sym = sym.substring(1, sym.length() - 1);
+        }
+
+        syms = sym.split(",");
+
         return syms;
     }
 
 //    String str, int numState, String [] tranFunction, String startState, String finalState
-    public boolean TestString(String str, int numState, String[] tranFunction, String startState, String finalState) {
-        boolean IsAccept = false;
+     public boolean testString(String str, int numState, String[] tranFunction, String startState, String finalState) {
+        Set<String> finalStates = new HashSet<>(Arrays.asList(finalState.split(","))); // Handles multiple final states
+        String[] states = renderStates(numState);
+        String currentState = startState;
 
-        String strNew = str;
-        int numStateNew = numState;
+        for (int i = 0; i < str.length(); i++) {
+            String testSymbol = String.valueOf(str.charAt(i));
+            boolean transitionFound = false;
 
-        String[] stateGenerate = renderStates(numState);
-      
+            for (int j = 0; j < states.length; j++) {
+                String transitionPattern = currentState + "=>" + states[j] + "," + testSymbol;
 
-        // String symbolsNew[] = {"a","b"};
-        // {"q0=>q1,a","q0=>q0,b","q1=>q1,a","q1=>q2,b","q2=>q2,a","q2=>q2,b"};
-        String tranFunctionNew[] = tranFunction;
-        String startStateNew = startState;
-        String finalStartNew = finalState;
-
-        String testSymbol = "";
-
-        String currentState = startStateNew;
-//        char currentSymbol;
-//        
-        String myTransitionWithSymbol = "";
-
-        for (int i = 0; i < strNew.length(); i++) {
-            testSymbol = String.valueOf(strNew.charAt(i));
-
-            for (int j = 0; j < numStateNew; j++) {
-
-                myTransitionWithSymbol = startStateNew + "=>" + stateGenerate[j] + "," + testSymbol;
-                for (String tran : tranFunctionNew) {
-                    if (myTransitionWithSymbol.equals(tran)) {
-                        currentState = stateGenerate[j];
-                        System.out.println(currentState);
+                for (String tran : tranFunction) {
+                    if (transitionPattern.equals(tran)) {
+                        currentState = states[j];
+                        transitionFound = true;
                         break;
                     }
                 }
-                if (finalStartNew.contains(currentState)) {
-                    IsAccept = true;
+
+                if (transitionFound) {
+                    break;
+                }
+            }
+
+            // Break early if we reach a final state
+            if (finalStates.contains(currentState)) {
+              //  System.out.println("Accept!");
+                return true;
+            }
+        }
+
+        // If no final state is reached after processing the entire string
+       
+        return false;
+    }
+
+    // Check if there are any state transfrom via epsilon symbol
+    public ArrayList<String> getepsilonTransition(String tranFunction, int numState) {
+        //String[] transitionWithEp = {};
+        String[] tranFunctionSplited = tranFunction.split(";", 0);
+        // System.out.println("All Transition functions");
+
+        String[] stateGenerate = new String[numState];
+        for (int i = 0; i < numState; i++) {
+            stateGenerate[i] = "q" + i;
+        }
+        // eps
+        char epsilon = '\u03B5';
+        String completeEpsilonSymbol = String.valueOf(epsilon);
+        List<String> transitionFunctionByGenerate = new ArrayList<>();
+        ArrayList<String> transitionMatched = new ArrayList<>();
+
+        //  System.out.println("All Generate : ");
+        for (int i = 0; i < numState; i++) {
+            for (int j = 0; j < numState; j++) {
+                String tranRander = "{" + stateGenerate[i] + "=>" + stateGenerate[j] + "," + completeEpsilonSymbol + "}";
+                transitionFunctionByGenerate.add(tranRander);
+            }
+        }
+
+        // System.out.println(transitionFunctionByGenerate.size());
+        int size1 = transitionFunctionByGenerate.size();
+        int size2 = tranFunctionSplited.length;
+
+        for (int i = 0; i < size1; i++) {
+            for (int j = 0; j < size2; j++) {
+                String s1 = transitionFunctionByGenerate.get(i);
+                String s2 = tranFunctionSplited[j];
+
+                if (s1.equals(s2)) {
+                    transitionMatched.add(s2);
                 }
 
             }
-
-            startStateNew = currentState;
         }
+        
+        
 
-        if (IsAccept == true) {
-            System.out.println("Accept!");
-        } else {
-            System.out.println("Reject!");
+        return transitionMatched;
+    }
+    
+    public String[] renderNewStateP(){
+        String []newStates = new String[20];
+        
+        // initial 20 states just in case
+        for(int i=0 ; i<20;i++){
+            newStates[i] = "p"+i;
         }
+        
+       return newStates;
+        
+        
+    }
+    
+    
+    // get date from input field
+    
+    public Automaton getUserInput(){
+        int numState = Integer.parseInt(setOfStatesField.getText());
+        String setOfSymbol = setOfSymbolsField.getText();
+        String transitionFunction = transitionFunctionField.getText();
+        String startState = startStateField.getText();
+        String setFinalState = setOfFinalStatesFields.getText();
+        
+        
+        String dfName = headerName.getText();
+        String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
 
-        return IsAccept;
+        
+        
+        Automaton auto = new Automaton();
+        
+        auto.setNumberOfState(numState);
+        auto.setSetofSymbols(setOfSymbol);
+        auto.setTransitionFunctions(transitionFunction);
+        auto.setStartState(startState);
+        auto.setSetofFinalStates(setFinalState);
+        auto.setName(dfName);
+        auto.setDate(date);
+
+        
+        return auto;
 
     }
-
-//     public ArrayList< String> extractStates(String transition) {
-//         Set<String> statesSet = new HashSet<>();
-//        ArrayList<String> statesList = new ArrayList<>();
-//
-//        // Define the regex pattern to match states in the format {q1=>q2,?}
-//        Pattern pattern = Pattern.compile("\\{(\\w+)=>(\\w+),\\?\\}");
-//        Matcher matcher = pattern.matcher(transition);
-//
-//        while (matcher.find()) {
-//            // Add both states to the list
-//            statesList.add(matcher.group(1));
-//            statesList.add(matcher.group(2));
-//        }
-//      
-//
-//    return statesList;
-//        
-//        
-//    };
+ 
     public String[] exTractStateContainEpsilon(String transition[]) {
         int size = transition.length;
         String[] SetofStatesContainEpsilon = new String[size];
@@ -177,48 +231,58 @@ public class UI_automata1 extends javax.swing.JFrame {
 
     public String[] epsilonTransition(String symBols, int numState, String tranFunction, String startState, String finalState) {
 
+        // object that we want to return in this functions
         String[] newSetStates = {"p0", "p1", "p2", "p3", "p4"};
 
         String[] tranFunctionSplited = tranFunction.split(";", 0);
-        // System.out.println("All Transition functions");
+//        // System.out.println("All Transition functions");
+//
+//        String[] stateGenerate = new String[numState];
+//        for (int i = 0; i < numState; i++) {
+//            stateGenerate[i] = "q" + i;
+//        }
+//        // eps
+//        char epsilon = '\u03B5';
+//        String completeEpsilonSymbol = String.valueOf(epsilon);
+//        List<String> transitionFunctionByGenerate = new ArrayList<>();
+//        List<String> transitionMatchedEpsilon = new ArrayList<>();
+//
+//        //  System.out.println("All Generate : ");
+//        for (int i = 0; i < numState; i++) {
+//            for (int j = 0; j < numState; j++) {
+//                String tranRander = "{" + stateGenerate[i] + "=>" + stateGenerate[j] + "," + completeEpsilonSymbol + "}";
+//                transitionFunctionByGenerate.add(tranRander);
+//            }
+//        }
+//
+//        // System.out.println(transitionFunctionByGenerate.size());
+//        int size1 = transitionFunctionByGenerate.size();
+//        int size2 = tranFunctionSplited.length;
+//
+//        for (int i = 0; i < size1; i++) {
+//            for (int j = 0; j < size2; j++) {
+//                String s1 = transitionFunctionByGenerate.get(i);
+//                String s2 = tranFunctionSplited[j];
+//
+//                if (s1.equals(s2)) {
+//                    transitionMatchedEpsilon.add(s2);
+//                }
+//
+//            }
+//        }
 
-        String[] stateGenerate = new String[numState];
-        for (int i = 0; i < numState; i++) {
-            stateGenerate[i] = "q" + i;
-        }
-
-        char epsilon = '\u03B5';
-        String completeEpsilonSymbol = String.valueOf(epsilon);
-        List<String> transitionFunctionByGenerate = new ArrayList<>();
-        List<String> transitionMatched = new ArrayList<>();
-
-        //  System.out.println("All Generate : ");
-        for (int i = 0; i < numState; i++) {
-            for (int j = 0; j < numState; j++) {
-                String tranRander = "{" + stateGenerate[i] + "=>" + stateGenerate[j] + "," + completeEpsilonSymbol + "}";
-                transitionFunctionByGenerate.add(tranRander);
-            }
-        }
-
-        // System.out.println(transitionFunctionByGenerate.size());
-        int size1 = transitionFunctionByGenerate.size();
-        int size2 = tranFunctionSplited.length;
-
-        for (int i = 0; i < size1; i++) {
-            for (int j = 0; j < size2; j++) {
-                String s1 = transitionFunctionByGenerate.get(i);
-                String s2 = tranFunctionSplited[j];
-
-                if (s1.equals(s2)) {
-                    transitionMatched.add(s2);
-                }
-
-            }
-        }
+        ArrayList<String> transitionMatchedEpsilon = getepsilonTransition(tranFunction, numState);
+        
+        // This function returns transition functions go with epsilon
+        
+        /// Let try with normal transition, 
 
         String p0 = "q0"; // default
         // find the set of state  move by symbol a
         // chage to variable next time
+        
+        
+        
         List<Integer> indexContainq0Witha = new ArrayList<>();
         List<Integer> indexContainq0Withb = new ArrayList<>();
         for (int i = 0; i < tranFunctionSplited.length; i++) {
@@ -266,9 +330,7 @@ public class UI_automata1 extends javax.swing.JFrame {
         int numOfnextStepA = startTemp.length + stateTempForEachSymA.length;
         int numOfnextStepB = startTemp.length + stateTempForEachSymB.length;
 
-        System.out.println("num of nextStep StateA: " + numOfnextStepA);
 
-        System.out.println("num of nextStep StateB: " + numOfnextStepB);
 
         String[] nextStateA = new String[numOfnextStepA];
         String[] nextStateB = new String[numOfnextStepB];
@@ -280,32 +342,32 @@ public class UI_automata1 extends javax.swing.JFrame {
         System.arraycopy(stateTempForEachSymB, 0, nextStateB, startTemp.length, stateTempForEachSymB.length);
 
         System.out.println("Set of new State go with symbol a:");
-        for (int j = 0; j < nextStateA.length; j++) {
-            System.out.println(nextStateA[j]);
-        }
+//        for (int j = 0; j < nextStateA.length; j++) {
+//            System.out.println(nextStateA[j]);
+//        }
 
         System.out.println("Set of new State go with symbol b:");
-        for (int j = 0; j < nextStateB.length; j++) {
-            System.out.println(nextStateB[j]);
-        }
+//        for (int j = 0; j < nextStateB.length; j++) {
+//            System.out.println(nextStateB[j]);
+//        }
+//
+//        System.out.println("All Match : ");
+//        for (String k : transitionMatchedEpsilon) {
+//            System.out.println(k);
+//        }
 
-        System.out.println("All Match : ");
-        for (String k : transitionMatched) {
-            System.out.println(k);
-        }
-
-        String[] statesArray = transitionMatched.toArray(new String[0]);
+        String[] statesArray = transitionMatchedEpsilon.toArray(new String[0]);
 
         String[] transitionEp = exTractStateContainEpsilon(statesArray);
 
         System.out.println("=> The states That Constain epsilon transiton: ");
-        for (String s : transitionEp) {
-
-            System.out.println(s);
-        }
+//        for (String s : transitionEp) {
+//
+//            System.out.println(s);
+//        }
 
         //   System.out.println("All states contain epsilon transition: ");
-        if (transitionMatched.isEmpty()) {
+        if (transitionMatchedEpsilon.isEmpty()) {
             //  System.out.println("No match Transition!");
         }
 
@@ -313,7 +375,7 @@ public class UI_automata1 extends javax.swing.JFrame {
         boolean containEpsilonforA = false;
         boolean containEpsilonforB = false;
 
-        String[] toArrtransitionMatched = transitionMatched.toArray(new String[0]);
+        String[] toArrtransitionMatched = transitionMatchedEpsilon.toArray(new String[0]);
         String[] nextEp = exTractNextState(toArrtransitionMatched);
         String[] currentEp = exTractStateContainEpsilon(toArrtransitionMatched);
 
@@ -366,7 +428,7 @@ public class UI_automata1 extends javax.swing.JFrame {
 
         }
 
-        System.out.println("For transition for A: " + containEpsilonforA);
+     //   System.out.println("For transition for A: " + containEpsilonforA);
 
         if (containEpsilonforA == true) {
             //  more transition with epsilon
@@ -381,7 +443,7 @@ public class UI_automata1 extends javax.swing.JFrame {
 
         System.out.println("With A");
         for (String s : newNextA) {
-            System.out.println(s);
+//            System.out.println(s);
         }
         System.out.println("For transition for B: " + containEpsilonforB);
 
@@ -403,49 +465,135 @@ public class UI_automata1 extends javax.swing.JFrame {
 
         System.out.println("With B");
         for (String s : newNextB) {
-            System.out.println(s);
+      //      System.out.println(s);
         }
 
         return newSetStates;
 
     }
 
-    
-    
     /// To do here
-    
-    
     public String[] newsetOfStates(String symBols, int numState, String tranFunction, String startState, String finalState) {
-        
-        
+
         // Process as array two D but return only array 1 D of String!
-        
         // check condition here
         // if there are any qo which go with e-transition
         
+        String []transitionSplit = tranFunction.split(";");
         String oldSetofState[] = renderStates(numState);
         
-        String []symbols = exTractSymbols(symBols);
+        String []renderP = renderNewStateP();
+        
+         // Testing
+        
+        ArrayList<ArrayList<String>> setOfNewStates2D = new ArrayList<>();
+        String p0 = oldSetofState[0];
+        ArrayList<String> statesgoWithA = new ArrayList<>();
+        ArrayList<String> temp = new ArrayList<>();
+          
+        
+        String []syms = {"a"};
+        temp.add(p0);
+//        statesgoWithA.add(p0);
+         ArrayList <Integer> getIndex = new ArrayList<>();
+        
+         if(transitionSplit[0].contains(p0) && transitionSplit[0].contains(syms[0]) ){
+                    getIndex.add(0);
+                    temp.add(p0+oldSetofState[1]);
+                }
+        boolean isTrue = false;
+        for (int r = temp.size() ; r>=0 ; r--){
+            if(!temp.get(temp.size()-1).equals(temp.get(r-1))){
+                isTrue = true;
+                // take the previous to add
+                 temp.add(temp.get(temp.size()-1)+oldSetofState[2]);
+                break;
+               
+            }
+        }
+        
+      
+        
+        
+        
+        for(int p = 0 ; p<temp.size();p++){
+            statesgoWithA.add(temp.get(p));
+        }
+        System.out.println("The set of new States:");
+        for (String k : statesgoWithA){
+
+            System.out.println(k);
+            
+            
+        }
+        
+        System.out.println("The number of new state = "+statesgoWithA.size());
+        
+        
+        
+        
+        
+       
+         // now you can compare it
+         
+         
+        
+       
+        //change to while loop next time
+        
+//       for(int i = 0 ; i<transitionSplit.length ; i++){
+//           
+//           // over number of symbols
+//           for(int j =0 ; j<syms.length;j++){
+//                if(transitionSplit[i].contains(p0) && transitionSplit[i].contains(syms[j]) ){
+//                    getIndex.add(i);
+//                    temp.add(p0+oldSetofState[1]);
+//                }
+//           }
+//          
+//       }
+//        int i = 0;
+//     //   while(!temp.get(i).equals(temp.get(i+1))
+        
+        
+        
+        
+        // focus only one symbol first
+        
+        
+        ArrayList<String> statesgoWithB = new ArrayList<>();
+
+        
+        // initail: for state process
+       
+//        setOfNewStates2D.get(0).add(p0);
+        
+        
+        
+        // while there are new state generate more
+//        int i = 0;
+//        while(!setOfNewStates2D.get(i).equals(i))
+//        
+//         
+//        
+//
+//        String[] symbols = exTractSymbols(symBols);
         
         // use this old set of state and move one by one by each symbol
         // create a function for symBolstransitions
         String[] newsetOfStates = epsilonTransition(symBols, numState, tranFunction, startState, finalState);
-        
-        
-        
 
         return newsetOfStates;
     }
 
-    public DFA ConstructEquivalentDFA(String symBols, int numState, String tranFunction, String startState, String finalState) {
+    public FA ConstructEquivalentDFA(String symBols, int numState, String tranFunction, String startState, String finalState) {
 
-       
         String[] newTransitinFunction = newTransitionFunction(symBols, numState, tranFunction, startState, finalState);
         String[] newStartState = newsetOfStates(symBols, numState, tranFunction, startState, finalState);
 
         String[] newsetOfFinalState = newsetOfFinalState(symBols, numState, tranFunction, startState, finalState);
         // mix functions
-        
+
         // function for create a new set of state
         String[] newsetOfStates = newsetOfStates(symBols, numState, tranFunction, startState, finalState);
 
@@ -454,8 +602,7 @@ public class UI_automata1 extends javax.swing.JFrame {
 //        String newStartStateString = String.join(";", newStartState);
 //        String newsetOfFinalStateString = String.join(";", newsetOfFinalState);
 //        String newsetOfStatesString = String.join(";", newsetOfStates);
-
-        DFA dfa = new DFA();
+        FA dfa = new FA();
         dfa.setSetofSymbols(symBols);
         dfa.setNumberOfState(numState);
         dfa.setTransitionFunctions(tranFunction);
@@ -604,7 +751,7 @@ public class UI_automata1 extends javax.swing.JFrame {
 
     }
 
-    class DFA {
+    class FA {
 
         private int numberOfState;
         private String setofSymbols;
@@ -762,8 +909,52 @@ public class UI_automata1 extends javax.swing.JFrame {
             model.addRow(row);
         }
     }
+    public void setTextToOutputArea(String str){
+        OutputArea.setText(str);
+        OutputArea.setEditable(false);  // Make the text area read-only
+        OutputArea.setLineWrap(true);   // Enable line wrapping
+        OutputArea.setWrapStyleWord(true); // Wrap at word boundaries
+    }
+    
+   
+    public String checkType(int numState, String setOfSymbol, String transitionFunction){
+        String message= "";
+        String mySymbol[] = setOfSymbol.split("[{,} ]", 0);
+        String myTranf[] = transitionFunction.split(";", 0);
 
-  public boolean insertValid(String name, String TheDate, int StateNum, String symbols, String transitions, String startstate, String finalstate) {
+        for (String s : myTranf) {
+            System.out.println(s);
+        }
+
+        int numOfTranf = myTranf.length;
+
+
+        String joinedStr = String.join("", mySymbol);
+
+        int numOfSymbol = joinedStr.length();
+
+        boolean IsEqual;
+
+     
+        message = " => It is a NFA";
+
+        IsEqual = (numOfSymbol * numState) == numOfTranf;
+
+        if ((!(transitionFunction.contains("ε"))) && IsEqual) {
+            message = "   => It is a DFA";
+
+        }
+
+        return message;
+        
+    }
+    
+    
+    
+    /// Database section
+    
+    
+    public boolean insertValid(String name, String TheDate, int StateNum, String symbols, String transitions, String startstate, String finalstate) {
         boolean IsValid = false;
 
         Connection myCon = DBConnection2.getConnection();
@@ -790,6 +981,7 @@ public class UI_automata1 extends javax.swing.JFrame {
         }
         return IsValid;
     }
+
     public void insertAutomaton(String name, String TheDate, int StateNum, String symbols, String transitions, String startstate, String finalstart) {
         Connection myCon = DBConnection2.getConnection();
         try {
@@ -810,23 +1002,19 @@ public class UI_automata1 extends javax.swing.JFrame {
 
                 int updateRowCount = pst.executeUpdate(); // Check if insert is successful
                 if (updateRowCount > 0) {
-                   // JOptionPane.showMessageDialog(null, "Record Inserted Successfully");
+                    // JOptionPane.showMessageDialog(null, "Record Inserted Successfully");
                 } else {
                     JOptionPane.showMessageDialog(null, "Record Inserted Unsuccessfully");
                 }
             } else {
                 // just in case
-               // JOptionPane.showMessageDialog(null, "Record with the same name and date already exists.");
+                // JOptionPane.showMessageDialog(null, "Record with the same name and date already exists.");
             }
 
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            // Close resources if needed
-            // rs.close();
-            // checkPst.close();
-            // pst.close();
-            // myCon.close();
+      
         }
         UpdateTable();
     }
@@ -917,6 +1105,7 @@ public class UI_automata1 extends javax.swing.JFrame {
         Main1.setBackground(new java.awt.Color(255, 255, 255));
 
         headerName.setFont(new java.awt.Font("Times New Roman", 1, 36)); // NOI18N
+        headerName.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         headerName.setText("Automaton Processor");
         headerName.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1197,9 +1386,9 @@ public class UI_automata1 extends javax.swing.JFrame {
         Main1Layout.setHorizontalGroup(
             Main1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(Main1Layout.createSequentialGroup()
+                .addGap(45, 45, 45)
                 .addGroup(Main1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(Main1Layout.createSequentialGroup()
-                        .addGap(45, 45, 45)
                         .addGroup(Main1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(Main1Layout.createSequentialGroup()
@@ -1212,13 +1401,14 @@ public class UI_automata1 extends javax.swing.JFrame {
                                 .addGap(46, 46, 46)
                                 .addGroup(Main1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(btnMinimize, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(BtnTeststring, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                    .addComponent(BtnTeststring, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(Main1Layout.createSequentialGroup()
-                        .addGap(180, 180, 180)
-                        .addComponent(headerName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel10)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(headerName, javax.swing.GroupLayout.PREFERRED_SIZE, 478, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel10)
+                        .addGap(116, 116, 116)))
                 .addComponent(Main2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         Main1Layout.setVerticalGroup(
@@ -1229,9 +1419,11 @@ public class UI_automata1 extends javax.swing.JFrame {
                     .addComponent(Main2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(Main1Layout.createSequentialGroup()
                         .addGroup(Main1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(headerName, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel10))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(headerName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(Main1Layout.createSequentialGroup()
+                                .addGap(8, 8, 8)
+                                .addComponent(jLabel10)))
+                        .addGap(18, 18, 18)
                         .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(34, 34, 34)
                         .addGroup(Main1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -1367,44 +1559,42 @@ public class UI_automata1 extends javax.swing.JFrame {
     private void BtnTeststringActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnTeststringActionPerformed
         // TODO add your handling code here
 
-        int numState = Integer.parseInt(setOfStatesField.getText());
-        String setOfSymbol = setOfSymbolsField.getText();
-        String transitionFunctionNew[] = (transitionFunctionField.getText()).split("[{;}]", 0);
-        String startState = startStateField.getText();
-        String setFinalState = setOfFinalStatesFields.getText();
+         Automaton input = getUserInput();
+        int numState =input.numberOfState;
+        String setOfSymbol = input.setofSymbols;
+        String transitionFunction = input.transitionFunctions;
+      //  String transitionFunctionNew[] = transitionFunction.split(",",0);
+        
+        
+        String startState = input.startState;
+        String setFinalState = input.setofFinalStates;
 
         String stringToTest = testStringfield.getText();
         String contentTest = "";
+         String[] transitions = {
+            "q0=>q1,a", "q0=>q0,b", "q1=>q1,a", "q1=>q2,b", "q2=>q2,a", "q2=>q2,b"
+        };
+         
+         String transitionFunctionNew[] = transitions;
+         
+         /// {"q0=>q1,a","q0=>q0,b","q1=>q1,a","q1=>q2,b","q2=>q2,a","q2=>q2,b"};
+      
+        boolean result = testString("abba", 3, transitions, "q0", "q2");
+       // System.out.println("Result: " + (result ? "Accepted" : "Rejected"));
+        
 
-        boolean IsAcceptMyString = TestString(stringToTest, numState, transitionFunctionNew, startState, setFinalState);
-
-        if (IsAcceptMyString == true) {
+      
+//        System.out.println("IsTrue : "+IsAcceptMyString);
+        System.out.println("Result: " + (result ? "Accepted" : "Rejected"));
+        if (result == true) {
             contentTest = "=> String \"" + stringToTest + "\" is accepted!";
         } else {
             contentTest = "=> String \"" + stringToTest + "\" is rejected!";
         }
-        String name = "Test 2";
-        String StateNum = "3";
-        try {
-            Connection con = DBConnection2.getConnection();
-            PreparedStatement pst = con.prepareStatement("select * from automatadetails where name = ? and StateNum = ?");
-            pst.setString(1, name);
-            pst.setString(2, StateNum);
-            ResultSet rs = pst.executeQuery();
-            if (rs.next()) {
-                JOptionPane.showMessageDialog(this, "Connect Successfully!");
-
-            } else {
-                JOptionPane.showMessageDialog(this, "Incorrect name or stateNum!");
-            }
-
-            // this will return boolean
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        OutputArea.setText(contentTest);
-
+        
+        setTextToOutputArea(contentTest);
+        
+// 
 
     }//GEN-LAST:event_BtnTeststringActionPerformed
 
@@ -1417,7 +1607,8 @@ public class UI_automata1 extends javax.swing.JFrame {
 
     private void BtnRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnRefreshActionPerformed
         // TODO add your handling code here:
-        OutputArea.setText("");
+        String s = "";
+        setTextToOutputArea(s);
 
     }//GEN-LAST:event_BtnRefreshActionPerformed
 
@@ -1673,7 +1864,7 @@ public class UI_automata1 extends javax.swing.JFrame {
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
         // TODO add your handling code here:
 
-        
+
     }//GEN-LAST:event_btnBackActionPerformed
 
     private void btnTestingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTestingActionPerformed
@@ -1681,20 +1872,7 @@ public class UI_automata1 extends javax.swing.JFrame {
     }//GEN-LAST:event_btnTestingActionPerformed
 
     private void setOfStatesFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_setOfStatesFieldActionPerformed
-        // TODO add your handling code here:
-
-//        int numStates =  Integer.parseInt(setOfStatesField1.getText());
-//        String setOfSymbols = setOfSymbolsField.getText();
-//        String transitionFunction = transitionFunctionField.getText();
-//        String startState = startStateField.getText();
-//        String setOfFinalStat = setOfFinalStatesFields.getText();
-//
-//        System.out.println(numStates);
-//        System.out.println(setOfSymbols);
-//        System.out.println(transitionFunction);
-//        System.out.println(startState);
-//        System.out.println(setOfFinalStat);
-
+   
     }//GEN-LAST:event_setOfStatesFieldActionPerformed
 
     private void setOfStatesFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_setOfStatesFieldFocusGained
@@ -1781,116 +1959,38 @@ public class UI_automata1 extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_setOfFinalStatesFieldsFocusLost
 
+    
+    
     private void btnCheckFAActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCheckFAActionPerformed
         // TODO add your handling code here:
+        
+        Automaton input = getUserInput();
+        int numState =input.numberOfState;
+        String setOfSymbol = input.setofSymbols;
+        String transitionFunction = input.transitionFunctions;
+        String startState = input.startState;
+        String setFinalState = input.setofFinalStates;
 
-        int numState = Integer.parseInt(setOfStatesField.getText());
-        String setOfSymbol = setOfSymbolsField.getText();
-        String transitionFunction = transitionFunctionField.getText();
-        String startState = startStateField.getText();
-        String setFinalState = setOfFinalStatesFields.getText();
-
-        String dfName = headerName.getText();
-        String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+        String name = input.name;
+        String date = input.date;
 
         /// check FA here 
         //1. no epsilon transition
         //2. number of transitions equal to number of states x number of symbols
         // how to count number of symbol
         // how to count number of transition
-        String mySymbol[] = setOfSymbol.split("[{,} ]", 0);
-        String myTranf[] = transitionFunction.split(";", 0);
-
-        for (String s : myTranf) {
-            System.out.println(s);
-        }
-
-        int numOfTranf = myTranf.length;
-
-        System.out.println("num of transition functions=" + numOfTranf);
-
-        // str = "ab"
-        System.out.println(setOfSymbol);
-
-        String joinedStr = String.join("", mySymbol);
-
-        int numOfSymbol = joinedStr.length();
-
-        boolean IsEqual;
-      
-
-        // ANSI escape codes for colors
-//        String ANSI_RESET = "\u001B[0m";
-//        String ANSI_RED = "\u001B[31m";
-
-        String messageDFA = " => It is a NFA";
-
-        IsEqual = (numOfSymbol * numState) == numOfTranf;
-
-        System.out.println(IsEqual);
-        if ((!(transitionFunction.contains("ε"))) && IsEqual) {
-            messageDFA = "   => It is a DFA";
-            
-            
-
-        }
-
-        Automaton auto = new Automaton();
-
-//        Object[] row = {dfName, date};
-//
-//        DefaultTableModel model = (DefaultTableModel) RecentTable.getModel();
-//
-//        model.addRow(row);
-        auto.setNumberOfState(numState);
-        auto.setSetofSymbols(setOfSymbol);
-        auto.setTransitionFunctions(transitionFunction);
-        auto.setStartState(startState);
-        auto.setSetofFinalStates(setFinalState);
-
-        System.out.println(auto.toString());
-
-        String myContent = auto.toString();
-
-        String myRealMeassage = myContent + "\n" +messageDFA;
-        // Create and set up the text area
-        OutputArea.setText(myRealMeassage);
-        OutputArea.setEditable(false);  // Make the text area read-only
-        OutputArea.setLineWrap(true);   // Enable line wrapping
-        OutputArea.setWrapStyleWord(true); // Wrap at word boundaries
-
-        String name = dfName;
-        String TheDate = date;
-        int StateNum = numState;
-        String symbols = setOfSymbol;
-        String transitions = transitionFunction;
-        String startstate = startState;
-        String finalstart = setFinalState;
-
-        // use function insert FA
-        insertAutomaton(name, TheDate, StateNum, symbols, transitions, startstate, finalstart);
-
-       
-
-        boolean IsContainEpsilon = false;
-
-        if (transitionFunction.contains("ε")) {
-            IsContainEpsilon = true;
-
-        } else {
-            IsContainEpsilon = false;
-        }
-
-        System.out.println("Is Contain Epsilon: " + IsContainEpsilon);
-
+     
+        
+        String messageType = checkType(numState, setOfSymbol, transitionFunction);
+        String myContent = input.toString();
+        String myRealMeassage = myContent + "\n" + messageType;
+           
+         // use function insert FA (database) [auto save]
+        insertAutomaton(name, date, numState, setOfSymbol, transitionFunction, startState, setFinalState);
+        // set message to area.
+        setTextToOutputArea(myRealMeassage);
         // clear user input
-        headerName.setText("");
-
-        setOfStatesField.setText("");
-        setOfSymbolsField.setText("");
-        transitionFunctionField.setText("");
-        startStateField.setText("");
-        setOfFinalStatesFields.setText("");
+        refreshField();
 
         // use function split string before insert into object of class
 
@@ -1907,8 +2007,8 @@ public class UI_automata1 extends javax.swing.JFrame {
         // write code here 
         // FA: (Q, X, ₰, q0, F)
         // Generate States
-        DFA myDFA;
-        myDFA = ConstructEquivalentDFA(setOfSymbol,numState, transitionFunction, startState, setFinalState);
+        FA myDFA;
+        myDFA = ConstructEquivalentDFA(setOfSymbol, numState, transitionFunction, startState, setFinalState);
         // Output here!
         System.out.println(myDFA);
 
@@ -2018,6 +2118,8 @@ public class UI_automata1 extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
+    
+    /// main function
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
