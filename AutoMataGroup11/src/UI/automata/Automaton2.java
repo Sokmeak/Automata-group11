@@ -57,9 +57,27 @@ public class Automaton2 {
                 }
             }
         }
+        
+        
+         System.out.println(" ====>  Unreachable states being removed:");
+        states.values().forEach(state -> {
+            if (!reachable.contains(state)) {
+                System.out.println(state.name);
+            }
+        });
+
 
         states.values().removeIf(state -> !reachable.contains(state));
+        
+
+
+        
         finalStates.removeIf(state -> !reachable.contains(state));
+        
+         System.out.println("\n====> Reachable states:");
+        states.values().forEach(state -> {
+            System.out.println(state.name);
+        });
     }
 
     @Override
@@ -70,6 +88,8 @@ public class Automaton2 {
         sb.append("Transition Functions: \"");
 
         List<String> transitions = new ArrayList<>();
+        System.out.println("The set of states: ");
+        states.keySet().forEach(s->System.out.println(s));
         states.values().forEach(state -> {
             alphabet.forEach(symbol -> {
                 Set<State> targets = state.getReachableStates(symbol);

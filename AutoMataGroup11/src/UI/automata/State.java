@@ -22,6 +22,18 @@ public class State {
     Set<State> getReachableStates(char symbol) {
         return transitions.getOrDefault(symbol, new HashSet<>());
     }
+    public boolean isFinal() {
+        return isFinal;
+    }
+    public State getTransition(char symbol) {
+        return transitions.getOrDefault(symbol, new HashSet<>()).stream().findFirst().orElse(null);
+    }
+    public Map<Character, Set<State>> getTransitions() {
+    return transitions;
+}
+
+    
+
 
     @Override
     public String toString() {

@@ -1,5 +1,5 @@
 
-import UI.automata.UI_automata1;
+import UI.automata.main;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;

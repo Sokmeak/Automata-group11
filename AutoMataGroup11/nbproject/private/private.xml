@@ -3,11 +3,10 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/YEARThree_S2/Automata%20theory/Project/Automata-group11/AutoMataGroup11/test/Array2D.java</file>
-            <file>file:/D:/YEARThree_S2/Automata%20theory/Project/Automata-group11/AutoMataGroup11/test/test.java</file>
-            <file>file:/D:/YEARThree_S2/Automata%20theory/Project/Automata-group11/AutoMataGroup11/src/UI/automata/UI_automata1.java</file>
-            <file>file:/D:/YEARThree_S2/Automata%20theory/Project/Automata-group11/AutoMataGroup11/test/NFAtoDFAConverter.java</file>
-            <file>file:/D:/YEARThree_S2/Automata%20theory/Project/Automata-group11/AutoMataGroup11/test/NFAtoDFAConverter2.java</file>
+            <file>file:/D:/YEARThree_S2/Automata%20theory/Project/Automata-group11/AutoMataGroup11/src/UI/automata/NFAtoDFAConverter.java</file>
+            <file>file:/D:/YEARThree_S2/Automata%20theory/Project/Automata-group11/AutoMataGroup11/src/UI/automata/main.java</file>
+            <file>file:/D:/YEARThree_S2/Automata%20theory/Project/Automata-group11/AutoMataGroup11/src/UI/automata/State.java</file>
+            <file>file:/D:/YEARThree_S2/Automata%20theory/Project/Automata-group11/AutoMataGroup11/src/UI/automata/Automaton2.java</file>
         </group>
     </open-files>
 </project-private>
